@@ -30,7 +30,7 @@ function __construct(){
 			$response = $messaging->message($phone_number, $message, $message_type);
 
 			return $verify_code;
-			print_r($response);
+			//print_r($response);
 
 				}
 

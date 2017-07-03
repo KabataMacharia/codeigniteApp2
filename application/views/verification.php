@@ -21,6 +21,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- iCheck -->
      <link rel="stylesheet" href="<?php echo base_url();?>resources/plugins/iCheck/square/blue.css" type="text/css" media="screen" title="no title" 
     charset="utf-8">
+		<!-- parsely style -->
+	<link rel="stylesheet" href="<?php echo base_url();?>resources/css/parsely.css" type="text/css" media="screen" title="no title" 
+    charset="utf-8">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -36,10 +39,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">Enter code for verification</p>
-        <?php  echo form_open('admin/login',array('class'=>'form'));?>
+		 <?php echo form_open('verify/verifycode', 'class="form"  data-parsley-validate');?>
          <?php echo form_hidden('ajax', '1');?>
           <div class="form-group has-feedback">
-            <input type="text" name="code" id="code" class="form-control" placeholder="Enter code">
+            <input type="text" name="code" id="code" required class="form-control" placeholder="Enter code">
 			
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
           </div>
@@ -50,44 +53,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </div>
        <?php form_close();?>
       </div><!-- /.login-box-body -->
-	       </div><!-- /.login-box -->
-
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>Login</title>
-
-<style>label {
-	display:block;
-
-}
-</style>
-<script
+	   </div><!-- /.login-box -->
+	<script
 			  src="https://code.jquery.com/jquery-3.2.1.min.js"
 			  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-			  crossorigin="anonymous"></script>
-</head>
+			  crossorigin="anonymous"></script>   
+			  <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.7.2/parsley.min.js"></script>
+              <script src="<?php echo base_url();?>resources/js/blockUI.js" type="text/javascript" charset="utf-8"></script>
+    <!-- Bootstrap 3.3.5 -->
+	<script src="<?php echo base_url();?>resources/bootstrap/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <!-- iCheck -->
+	<script src="<?php echo base_url();?>resources/plugins/iCheck/icheck.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
 
 <script type="text/javascript">
 
 $('.form').submit(function(e) {
-document.getElementById('load').innerHTML = "<img src='<?php echo base_url();?>SmallLoading.gif' />Loading...";
-console.log($('.form').serialize());
 $.ajax({
 url: "<?php echo base_url(); ?>" + "index.php/verify/verifycode",
 type: 'POST',
 data: $('.form').serialize(),
 success: function(data) {
-	
-if(data=='1'){
-		$("#load").hide();
-	window.location.href = '<?php echo base_url(); ?>index.php/welcome' 
+$.blockUI();
 
+if(data=='1'){
+	window.location.href = '<?php echo base_url(); ?>index.php/welcome' 
 	}else{
 	$("#load").html(data);
     }
+	setTimeout($.unblockUI, 2000);
 }
 });
 e.preventDefault();

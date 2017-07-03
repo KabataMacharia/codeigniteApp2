@@ -32,7 +32,7 @@ class Admin extends CI_Controller {
 		public function login(){
 			$email= $this->input->post('email_address');
 		    $password= $this->input->post('password');
-             $result=  $this->Admin_model->verify_user($email, $password);
+            $result=  $this->Admin_model->verify_user($email, $password);
 		      if($result!==false){
 				 
 				$_SESSION['username']=$result->fname;

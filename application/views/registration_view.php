@@ -72,6 +72,7 @@
 			  src="https://code.jquery.com/jquery-3.2.1.min.js"
 			  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
 			  crossorigin="anonymous"></script>   
+			     <script src="<?php echo base_url();?>resources/js/blockUI.js" type="text/javascript" charset="utf-8"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.7.2/parsley.min.js"></script>
     <!-- Bootstrap 3.3.5 -->
 	<script src="<?php echo base_url();?>resources/bootstrap/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
@@ -88,6 +89,7 @@ url: "<?php echo base_url(); ?>" + "index.php/admin/registermember",
 type: 'POST',
 data: $('.form').serialize(),
 success: function(data) {
+	$.blockUI();
 if(data=='1'){
 	alert('f');
 		$("#load").hide();
@@ -97,6 +99,7 @@ if(data=='1'){
 		
 	$("#load").html(data);
     }
+	setTimeout($.unblockUI, 2000);
 }
 });
 e.preventDefault();

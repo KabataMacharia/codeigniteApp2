@@ -8,37 +8,25 @@ class Verify extends CI_Controller {
 		}
 
 	public function index(){
-	//$data['code']=$_SESSION['code'];
 	$data['title'] = 'Verification';
     $this->load->view('verification',$data);
 	}
 		 
 	public function verifycode()
 	{
-     
-	if($this->input->post('ajax') == '1') {
-	$this->form_validation->set_rules("code", "Code", "required");
-	    if ($this->form_validation->run() !==FALSE)
-              {
 			$code=$_SESSION['code'];
 			$user_entered_verify_code=$this->input->post('code');
-			if ($code == $user_entered_verify_code) {
-			 echo '1';
+			if ($code == $user_entered_verify_code) 
+			{
+				echo '1';
+				redirect('welcome');
+			 
 			}
-			else {
-			 echo '0';
-			}	
-              }ELSE{?>
-				  	  <h4 style='color:red'><?php echo validation_errors();?></h4>
-					  <?PHP
-			  }
-
-			
-		
-	}else{
+			else 
+			{
+			echo "<font color='red'>Please enter the correct code.</font>";
+			}
 		$this->load->view('verification');
-	}
-	
 	}
 		public function logout(){
 		session_destroy();
