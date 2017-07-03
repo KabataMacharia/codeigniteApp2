@@ -38,10 +38,10 @@ function __construct(){
 		{
 	
 				$data = array(
-				'fname' => $this->cleanData($this->input->post('fname')),
-			    'lname' => $this->cleanData($this->input->post('lname')),
-				'email' => $this->cleanData($this->input->post('email')),
-				'password' => sha1($this->cleanData($this->input->post('password')))
+				'fname' =>trim($this->input->post('fname')),
+			    'lname' =>trim($this->input->post('lname')),
+				'email' =>trim($this->input->post('email')),
+				'password' => sha1(trim($this->input->post('password')))
 				);	
 				$r=$this->db->insert('login', $data);
 				if($r)
