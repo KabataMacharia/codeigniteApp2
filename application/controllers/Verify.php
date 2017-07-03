@@ -9,6 +9,7 @@ class Verify extends CI_Controller {
 
 	public function index(){
 	$data['title'] = 'Verification';
+    $this->load->view('table_header');
     $this->load->view('verification',$data);
 	}
 		 

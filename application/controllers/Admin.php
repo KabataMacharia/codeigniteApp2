@@ -9,11 +9,13 @@ class Admin extends CI_Controller {
 	 	  public function index()
 		{
 			$data['title'] = 'Login App';
+			$this->load->view('table_header');
 		    $this->load->view('login_view',$data);
 		}
 		public function registration()
 		{
 			$data['title'] = 'Register';
+			$this->load->view('table_header');
 		    $this->load->view('registration_view',$data);
 		}
 		public function update()
@@ -29,6 +31,7 @@ class Admin extends CI_Controller {
 		public function password()
 		{
 			$data['title'] = 'Forgot Password';
+			$this->load->view('table_header');
 		    $this->load->view('forgotpassword_view',$data);
 		}
 		public function login(){
