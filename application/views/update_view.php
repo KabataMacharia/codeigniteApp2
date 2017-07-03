@@ -18,11 +18,10 @@
       <!-- /.row -->
       <!-- Main row -->
       <div class="row">
-	   <div class="login-box">
-      <div class="login-logo">
-        <h4>Edit Your Profile</h4>
-       <p id='load'></p>
-      </div><!-- /.login-logo -->
+	    <!-- Left col -->
+        <section class="col-lg-4 connectedSortable">
+          <!-- Custom tabs (Charts with tabs)-->
+            <div class="login-box">
       <div class="login-box-body">
 	   <?php echo form_open('admin/updateMember', 'class="form"  data-parsley-validate');?>
          <?php echo form_hidden('ajax', '1');?>
@@ -52,6 +51,9 @@
        <?php form_close();?>
       </div><!-- /.login-box-body -->
 	       </div><!-- /.login-box -->
+
+        </section>
+        <!-- /.Left col -->
  <!-- work space -->
       </div>
       <!-- /.row (main row) -->
