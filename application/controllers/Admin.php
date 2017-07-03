@@ -22,7 +22,9 @@ class Admin extends CI_Controller {
 			$data['fname'] = $result->fname;
 			$data['lname'] = $result->lname;
 			$data['email'] = $result->email;
+		    $this->load->view('table_header');
 		    $this->load->view('update_view',$data);
+			$this->load->view('table_footer');
 		}
 		public function password()
 		{
@@ -46,6 +48,10 @@ class Admin extends CI_Controller {
 		public function registermember()
 		{
 	    $this->Admin_model->checkEmail();
+		}
+		public function deleteMember()
+		{
+	    $this->Admin_model->deleteMember();
 		}
 		public function updateMember()
 		{

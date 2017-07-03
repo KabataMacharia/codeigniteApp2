@@ -61,7 +61,7 @@
             <div class="col-xs-8">
              <button type="submit" id="submit" class="btn btn-success btn-block btn-flat">Register</button><br>
             </div><!-- /.col -->
-			    <div class="col-xs-4">
+			 <div class="col-xs-4">
               <a href="<?php echo base_url();?>index.php/admin">Login</a><br>
             </div><!-- /.col -->
           </div>

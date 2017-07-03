@@ -10,6 +10,7 @@ function __construct(){
 	
 			public function verify_user($email, $password){
 				$this->db->where('email',$email);
+				$this->db->where('deleted','N');
 				$this->db->where('password',sha1($password));
 				$query = $this->db->get('login');
 					if($query->num_rows()>0){
@@ -58,7 +59,8 @@ function __construct(){
 		 public function checkEmail()
 		 {
 			$username = trim($this->input->post('email'));
-			$this->db->where('email',$username);		
+			$this->db->where('email',$username);
+			$this->db->where('deleted','N');			
 			$query = $this->db->get('login');
 			if($query->num_rows()==0)
 			{
@@ -88,6 +90,24 @@ function __construct(){
 				echo "<font color='red'>Profile not edited</font>";					
 				}  
 		   }
+		   	 public function deleteMember()
+		   {
+				$id = $_SESSION['userid'];
+				$this->db->where('id',$id);
+			 	$data = array(
+				'deleted' =>'Y'
+				);	
+				$this->db->update('login', $data);
+				
+				if($this->db->affected_rows() > 0)
+				{
+			   echo "<font color='blue' size='5'>Profile successfully deleted</font>";		
+				}
+				else
+				{
+				echo "<font color='red'>Profile not deleted</font>";					
+				}  
+		   }
           public function forgotPassword()
 		 {	
 			$username = $this->input->post('email');	
@@ -115,6 +135,7 @@ function __construct(){
 		 {
 			 $id = $_SESSION['userid'];
 			 $this->db->where('id',$id);
+			 $this->db->where('deleted','N');
 			 $query = $this->db->get('login');
 			if($query->num_rows()>0)
 			{
