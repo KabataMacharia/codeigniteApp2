@@ -12,6 +12,12 @@ class Admin extends CI_Controller {
 			$this->load->view('table_header');
 		    $this->load->view('login_view',$data);
 		}
+		public function profile()
+		{
+			$data['title'] = 'Login App';
+			$this->load->view('table_header');
+		    $this->load->view('profile',$data);
+		}
 		public function registration()
 		{
 			$data['title'] = 'Register';
