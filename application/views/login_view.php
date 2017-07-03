@@ -84,7 +84,7 @@
             </div>
         </div>
     </div>
-
+</body>
     <!-- GLOBAL SCRIPTS -->
     <script src="<?php echo base_url();?>resources/js/jquery.min.js"></script>
     <script src="<?php echo base_url();?>resources/js/plugins/bootstrap/bootstrap.min.js"></script>
@@ -128,5 +128,5 @@ e.preventDefault();
 });
 
 </script> 
-</body>
+
 </html>
