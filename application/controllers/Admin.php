@@ -16,6 +16,14 @@ class Admin extends CI_Controller {
 			$data['title'] = 'Register';
 		    $this->load->view('registration_view',$data);
 		}
+		public function update()
+		{   $data['title'] = 'Edit Profile';
+		    $result=  $this->Admin_model->getUser();
+			$data['fname'] = $result->fname;
+			$data['lname'] = $result->lname;
+			$data['email'] = $result->email;
+		    $this->load->view('update_view',$data);
+		}
 		public function password()
 		{
 			$data['title'] = 'Forgot Password';
@@ -28,15 +36,20 @@ class Admin extends CI_Controller {
 		      if($result!==false){
 				 
 				$_SESSION['username']=$result->fname;
+				$_SESSION['userid']=$result->id;
 				$code=  $this->Admin_model->send_code();
 				$_SESSION['code']=$code;
 				echo '1';
 				}
 			
 		}
-		public function registermember(){
+		public function registermember()
+		{
 	    $this->Admin_model->checkEmail();
-		
+		}
+		public function updateMember()
+		{
+	    $this->Admin_model->updateMember();
 		}
 		public function forgotPassword()
 		{
@@ -49,6 +62,9 @@ class Admin extends CI_Controller {
 		exit;
 		echo 'You are logout';
 	     }
-
+         public function getUser()
+		 {
+			$this->Admin_model->getUser(); 
+		 }
 }
 ?>

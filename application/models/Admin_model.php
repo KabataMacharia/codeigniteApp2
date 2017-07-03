@@ -41,11 +41,12 @@ function __construct(){
 				'fname' =>trim($this->input->post('fname')),
 			    'lname' =>trim($this->input->post('lname')),
 				'email' =>trim($this->input->post('email')),
-				'password' => sha1(trim($this->input->post('cpassword')))
+				'password' => sha1(trim($this->input->post('cpassword'))),
+				'deleted' =>'N'
 				);	
-				$r=$this->db->insert('login', $data);
-				//echo $this->db->last_query();
-				if($r)
+				$this->db->insert('login', $data);
+				
+				if($this->db->affected_rows() > 0)
 				{
 			   echo "<font color='blue' size='5'>You have registered successfully.Click Login!!</font>";		
 				}
@@ -59,13 +60,34 @@ function __construct(){
 			$username = trim($this->input->post('email'));
 			$this->db->where('email',$username);		
 			$query = $this->db->get('login');
-			if($query->num_rows()==0){
+			if($query->num_rows()==0)
+			{
 			$this->saveMember();
 			}else{
 		    echo "<font color='red' size='5'>This Email Exists!! Please use another email</font>";
 			}	
 			
-		 }
+		   } 
+		   public function updateMember()
+		   {
+				$id = $_SESSION['userid'];
+				$this->db->where('id',$id);
+			 	$data = array(
+				'fname' =>trim($this->input->post('fname')),
+			    'lname' =>trim($this->input->post('lname')),
+				'email' =>trim($this->input->post('email'))
+				);	
+				$this->db->update('login', $data);
+				
+				if($this->db->affected_rows() > 0)
+				{
+			   echo "<font color='blue' size='5'>Profile successfully edited</font>";		
+				}
+				else
+				{
+				echo "<font color='red'>Profile not edited</font>";					
+				}  
+		   }
           public function forgotPassword()
 		 {	
 			$username = $this->input->post('email');	
@@ -88,6 +110,20 @@ function __construct(){
 			}else{
 			  echo "<font color='red' size='5'>The email is not registered in our system</font>";
 			}	
+		 }		
+         public function getUser()
+		 {
+			 $id = $_SESSION['userid'];
+			 $this->db->where('id',$id);
+			 $query = $this->db->get('login');
+			if($query->num_rows()>0)
+			{
+			return $query->row();
+					
+			}else
+			{
+			return false;
+			} 
 		 }		 
 }
 ?>
