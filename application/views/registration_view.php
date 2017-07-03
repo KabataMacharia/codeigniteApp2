@@ -89,7 +89,7 @@ type: 'POST',
 data: $('.form').serialize(),
 success: function(data) {
 if(data=='1'){
-	
+	alert('f');
 		$("#load").hide();
 	window.location.href = '<?php echo base_url(); ?>index.php/login' 
 	}

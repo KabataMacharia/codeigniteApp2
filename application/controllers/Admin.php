@@ -35,7 +35,8 @@ class Admin extends CI_Controller {
 			
 		}
 		public function registermember(){
-	    $result=  $this->Admin_model->checkEmail();
+	    $this->Admin_model->checkEmail();
+		
 		}
 		public function forgotPassword()
 		{

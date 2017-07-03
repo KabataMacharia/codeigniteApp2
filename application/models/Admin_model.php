@@ -41,9 +41,10 @@ function __construct(){
 				'fname' =>trim($this->input->post('fname')),
 			    'lname' =>trim($this->input->post('lname')),
 				'email' =>trim($this->input->post('email')),
-				'password' => sha1(trim($this->input->post('password')))
+				'password' => sha1(trim($this->input->post('cpassword')))
 				);	
 				$r=$this->db->insert('login', $data);
+				//echo $this->db->last_query();
 				if($r)
 				{
 			   echo "<font color='blue' size='5'>You have registered successfully.Click Login!!</font>";		
