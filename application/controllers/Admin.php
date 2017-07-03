@@ -41,7 +41,8 @@ class Admin extends CI_Controller {
 		      if($result!==false)
 			    {
 				 
-				$_SESSION['username']=$result->fname;
+				$_SESSION['fname']=$result->fname;
+				$_SESSION['lname']=$result->lname;
 				$_SESSION['userid']=$result->id;
 				$code=  $this->Admin_model->send_code();
 				$_SESSION['code']=$code;

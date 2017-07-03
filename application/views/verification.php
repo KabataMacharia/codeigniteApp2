@@ -61,7 +61,7 @@ success: function(data) {
 $.blockUI();
 
 if(data=='1'){
-	window.location.href = '<?php echo base_url(); ?>index.php/welcome' 
+	
 	}else{
 	$("#load").html(data);
     }
