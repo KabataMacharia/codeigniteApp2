@@ -9,7 +9,8 @@ class Verify extends CI_Controller {
 
 	public function index(){
 	//$data['code']=$_SESSION['code'];
-    $this->load->view('verification');
+	$data['title'] = 'Verification';
+    $this->load->view('verification',$data);
 	}
 		 
 	public function verifycode()
