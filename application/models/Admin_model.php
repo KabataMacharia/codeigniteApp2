@@ -13,11 +13,14 @@ function __construct(){
 				$this->db->where('deleted','N');
 				$this->db->where('password',sha1($password));
 				$query = $this->db->get('login');
-					if($query->num_rows()>0){
-						return $query->row();
-					}else{
-						return false;
-					}       
+				if($query->num_rows()>0)
+				{
+				return $query->row();
+				}
+				else
+				{
+				 return false;
+				}       
 			   }
 		public function send_code(){
 			$customer_id = "60F9F943-9922-4DAB-BAF9-E99EA60588B7";
@@ -31,7 +34,7 @@ function __construct(){
 			$response = $messaging->message($phone_number, $message, $message_type);
 
 			return $verify_code;
-			//print_r($response);
+
 
 				}
 
@@ -53,7 +56,7 @@ function __construct(){
 				}
 				else
 				{
-				echo "<font color='red'>You are not registered.</font>";					
+				echo "<font color='red' size='5'>You are not registered.</font>";					
 				}					
 		}	
 		 public function checkEmail()
@@ -87,7 +90,7 @@ function __construct(){
 				}
 				else
 				{
-				echo "<font color='red'>Profile not edited</font>";					
+				echo "<font color='red' size='5'>Profile not edited</font>";					
 				}  
 		   }
 		   	 public function deleteMember()

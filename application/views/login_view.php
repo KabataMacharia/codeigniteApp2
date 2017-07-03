@@ -1,79 +1,108 @@
+	
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+
+<head>
+
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title><?php echo $title;?> </title>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.5 -->
-    <link rel="stylesheet" href="<?php echo base_url();?>resources/bootstrap/css/bootstrap.min.css" type="text/css" media="screen" title="no title" 
-    charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Theme style -->
-	<link rel="stylesheet" href="<?php echo base_url();?>resources/dist/css/AdminLTE.min.css" type="text/css" media="screen" title="no title" 
-    charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Login Application</title>
+
+    <!-- GLOBAL STYLES -->
+    <link href="<?php echo base_url();?>resources/css/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic' rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel="stylesheet" type="text/css">
+    <link href="<?php echo base_url();?>resources/icons/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- PAGE LEVEL PLUGIN STYLES -->
+
+    <!-- THEME STYLES -->
+    <link href="<?php echo base_url();?>resources/css/style.css" rel="stylesheet">
+    <link href="<?php echo base_url();?>resources/css/plugins.css" rel="stylesheet">
+
+    <!-- THEME DEMO STYLES -->
+    <link href="<?php echo base_url();?>resources/css/demo.css" rel="stylesheet">
 	<!-- parsely style -->
 	<link rel="stylesheet" href="<?php echo base_url();?>resources/css/parsely.css" type="text/css" media="screen" title="no title" 
     charset="utf-8">
-    <!-- iCheck -->
-     <link rel="stylesheet" href="<?php echo base_url();?>resources/plugins/iCheck/square/blue.css" type="text/css" media="screen" title="no title" 
-    charset="utf-8">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
     <![endif]-->
-  </head>
-  <body class="hold-transition login-page">
-    <div class="login-box">
-      <div class="login-logo">
-        <h4>Login Application</h4>
-       <p id='load'></p>
-      </div><!-- /.login-logo -->
-      <div class="login-box-body">
-        <p class="login-box-msg">Sign in to start your session</p>
-      
-		 <?php echo form_open('admin/login', 'class="form"  data-parsley-validate');?>
-         <?php echo form_hidden('ajax', '1');?>
-          <div class="form-group has-feedback">
-            <input type="text" name="email_address" id="email_address" required data-parsley-type="email" class="form-control" placeholder="Email">
-			
-            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-          </div>
-          <div class="form-group has-feedback">
-            <input type="password" name="password" id="password" required class="form-control" placeholder="Password">
-            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-          </div>
-           <div class="row">
-            <div class="col-xs-4">
-             <button type="submit" id="submit" class="btn btn-success btn-block btn-flat">Login</button><br>
-            </div><!-- /.col -->
-          </div>
-       <?php form_close();?>
-			    <div class="row">
-            <div class="col-xs-6">
-                <a href="<?php echo base_url();?>index.php/admin/registration">Register</a><br>
-            </div><!-- /.col -->
-			 <div class="col-xs-6">
-              <a href="<?php echo base_url();?>index.php/admin/password">Forgot Password</a><br>
-            </div><!-- /.col -->
-          </div>
-      </div><!-- /.login-box-body -->
-	       </div><!-- /.login-box -->
-		<script
+
+</head>
+
+<body class="login">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-banner text-center">
+                    <h1><i class="fa fa-gears"></i>Login App</h1>
+                </div>
+                <div class="portlet portlet-green">
+                    <div class="portlet-heading login-heading">
+                        <div class="portlet-title">
+                            <h4><strong>Login!</strong>
+                            </h4>
+                        </div>
+                        <div class="portlet-widgets">
+                          
+							<a href="<?php echo base_url();?>index.php/admin/registration"><i class="fa fa-plus-circle"></i>New User</a>
+							 
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="portlet-body">
+                         <?php echo form_open('admin/login', 'class="form"  data-parsley-validate');?>
+                            <fieldset>
+                                <div class="form-group">
+                 
+									<input type="text" name="email_address" id="email_address" required data-parsley-type="email" class="form-control" placeholder="Email">
+                                </div>
+                                <div class="form-group">
+                                                <input type="password" name="password" id="password" required class="form-control" placeholder="Password">
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input name="remember" type="checkbox" value="Remember Me">Remember Me
+                                    </label>
+                                </div>
+                                <br>
+                             <button type="submit" id="submit" class="btn btn-success btn-block btn-flat">Login</button>
+                            </fieldset>
+                            <br>
+                            <p class="small">
+                                <a href="<?php echo base_url();?>index.php/admin/password">Forgot your password?</a>
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GLOBAL SCRIPTS -->
+    <script src="<?php echo base_url();?>resources/js/jquery.min.js"></script>
+    <script src="<?php echo base_url();?>resources/js/plugins/bootstrap/bootstrap.min.js"></script>
+    <script src="<?php echo base_url();?>resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- HISRC Retina Images -->
+    <script src="<?php echo base_url();?>resources/js/plugins/hisrc/hisrc.js"></script>
+
+    <!-- PAGE LEVEL PLUGIN SCRIPTS -->
+
+    <!-- THEME SCRIPTS -->
+    <script src="<?php echo base_url();?>resources/js/flex.js"></script>
+<script
 			  src="https://code.jquery.com/jquery-3.2.1.min.js"
 			  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
 			  crossorigin="anonymous"></script>   
 			  <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.7.2/parsley.min.js"></script>
               <script src="<?php echo base_url();?>resources/js/blockUI.js" type="text/javascript" charset="utf-8"></script>
-    <!-- Bootstrap 3.3.5 -->
-	<script src="<?php echo base_url();?>resources/bootstrap/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
-    <!-- iCheck -->
-	<script src="<?php echo base_url();?>resources/plugins/iCheck/icheck.min.js" type="text/javascript" charset="utf-8"></script>
+
 <script type="text/javascript">
 
 $('.form').submit(function(e) {
@@ -99,3 +128,5 @@ e.preventDefault();
 });
 
 </script> 
+</body>
+</html>
