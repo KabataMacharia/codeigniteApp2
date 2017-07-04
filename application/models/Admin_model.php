@@ -40,16 +40,24 @@ function __construct(){
 
 	public function saveMember()
 		{
-	
+				$data=$this->uploadProfilePic();
+				if($data=='')
+				{
+					$file='';
+				}
+				else
+				{
+			   $file=$data['file_name'];
+				}
 				$data = array(
 				'fname' =>trim($this->input->post('fname')),
 			    'lname' =>trim($this->input->post('lname')),
 				'email' =>trim($this->input->post('email')),
 				'password' => sha1(trim($this->input->post('cpassword'))),
-				'deleted' =>'N'
+				'deleted' =>'N',
+				'photo'=>$file
 				);	
 				$this->db->insert('login', $data);
-				
 				if($this->db->affected_rows() > 0)
 				{
 			   echo "<font color='blue' size='5'>You have registered successfully.Click Login!!</font>";		
@@ -148,6 +156,36 @@ function __construct(){
 			{
 			return false;
 			} 
-		 }		 
+		 }		
+      public function uploadProfilePic()
+	  {
+		  //if((isset($_SESSION['userid'])))
+		//  {
+			if(!isset($_FILES['file']))
+			{
+				return $data='';
+			}
+			else
+			{
+				$config['upload_path'] = realpath(APPPATH.'../images');
+			    $config['allowed_types']        = 'jpg|png|jpeg|JPEG|PNG|gif';
+                $config['max_size']             = 10000000000;
+                $config['max_width']            = 100000000024;
+                $config['max_height']           = 70000000068;
+
+                $this->load->library('upload', $config);
+                if ( ! $this->upload->do_upload('file'))
+                {
+                      $error = array('error' => $this->upload->display_errors());
+
+                     print_r($error);
+                }
+                else
+                {
+                        return $data = $this->upload->data();
+                }
+			}  
+		  //}
+	  }	  
 }
 ?>

@@ -9,31 +9,24 @@ class Admin extends CI_Controller {
 	 	  public function index()
 		{
 			$data['title'] = 'Login App';
-			$this->load->view('table_header');
 		    $this->load->view('login_view',$data);
 		}
 		public function profile()
 		{
-			$data['title'] = 'Login App';
-			$this->load->view('table_header');
-		    $this->load->view('profile',$data);
-		}
-		public function registration()
-		{
-			$data['title'] = 'Register';
-			$this->load->view('table_header');
-		    $this->load->view('registration_view',$data);
-		}
-		public function update()
-		{   $data['title'] = 'Edit Profile';
 		    $result=  $this->Admin_model->getUser();
 			$data['fname'] = $result->fname;
 			$data['lname'] = $result->lname;
 			$data['email'] = $result->email;
 		    $this->load->view('table_header');
-		    $this->load->view('update_view',$data);
+		    $this->load->view('profile',$data);
 			$this->load->view('table_footer');
 		}
+		public function registration()
+		{
+			$data['title'] = 'Register';
+		    $this->load->view('registration_view',$data);
+		}
+
 		public function password()
 		{
 			$data['title'] = 'Forgot Password';
@@ -46,7 +39,7 @@ class Admin extends CI_Controller {
             $result=  $this->Admin_model->verify_user($email, $password);
 		      if($result!==false)
 			    {
-				 
+				$_SESSION['photo']=$result->photo;
 				$_SESSION['fname']=$result->fname;
 				$_SESSION['lname']=$result->lname;
 				$_SESSION['userid']=$result->id;

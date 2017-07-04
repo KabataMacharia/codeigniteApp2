@@ -1,6 +1,5 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class Verify extends CI_Controller {
 		function __construct(){
 			parent::__construct();
@@ -9,7 +8,6 @@ class Verify extends CI_Controller {
 
 	public function index(){
 	$data['title'] = 'Verification';
-    $this->load->view('table_header');
     $this->load->view('verification',$data);
 	}
 		 
