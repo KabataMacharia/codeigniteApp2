@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 03, 2017 at 02:45 PM
+-- Generation Time: Jul 04, 2017 at 05:33 PM
 -- Server version: 10.1.24-MariaDB
 -- PHP Version: 7.1.6
 
@@ -34,6 +34,8 @@ CREATE TABLE `login` (
   `lname` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL,
+  `photo` text NOT NULL,
+  `token` int(11) NOT NULL,
   `deleted` varchar(1) NOT NULL,
   `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -42,11 +44,8 @@ CREATE TABLE `login` (
 -- Dumping data for table `login`
 --
 
-INSERT INTO `login` (`id`, `fname`, `lname`, `email`, `password`, `deleted`, `date_created`) VALUES
-(4, 'Brendah', 'Khalifwa', 'khalifwab@gmail.com', 'f62830ca4c2d3a209619feac2c3fe172ad00e06e', 'N', '2017-06-30 13:37:41'),
-(8, 'brenda', 'khalifw', 'khalifwa@gmail.com', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', 'N', '2017-06-30 14:21:22'),
-(16, 'TEST', 'TEST', 'test@gmail.com', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', 'N', '2017-07-03 09:42:24'),
-(17, 'Blessing', 'wanjala', 'blessing@gmail.com', 'e9d71f5ee7c92d6dc9e92ffdad17b8bd49418f98', 'N', '2017-07-03 11:06:05');
+INSERT INTO `login` (`id`, `fname`, `lname`, `email`, `password`, `photo`, `token`, `deleted`, `date_created`) VALUES
+(4, 'brendah', 'khalifwa', 'khalifwab@gmail.com', 'f62830ca4c2d3a209619feac2c3fe172ad00e06e', 'brendah14.jpg', 558590052, 'N', '2017-06-30 13:37:41');
 
 --
 -- Indexes for dumped tables
@@ -66,7 +65,7 @@ ALTER TABLE `login`
 -- AUTO_INCREMENT for table `login`
 --
 ALTER TABLE `login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;COMMIT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
