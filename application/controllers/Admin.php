@@ -65,6 +65,10 @@ class Admin extends CI_Controller {
 		{
 	    $this->Admin_model->updateMember();
 		}
+		public function  updateMemberPic()
+		{
+	    $this->Admin_model-> updateMemberPic();
+		}
 		public function forgotPassword()
 		{
 		$this->Admin_model->forgotPassword();

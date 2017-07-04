@@ -101,6 +101,33 @@ function __construct(){
 				echo "<font color='red' size='5'>Profile not edited</font>";					
 				}  
 		   }
+		   		   public function updateMemberPic()
+		   {
+			   $data=$this->uploadProfilePic();
+				if($data=='')
+				{
+					$file='';
+				}
+				else
+				{
+			   $file=$data['file_name'];
+				}
+				$id = $_SESSION['userid'];
+				$this->db->where('id',$id);
+			 	$data = array(
+				'photo' =>$file
+				);	
+				$this->db->update('login', $data);
+				
+				if($this->db->affected_rows() > 0)
+				{
+			   echo "<font color='blue' size='5'>Profile Picture successfully edited</font>";		
+				}
+				else
+				{
+				echo "<font color='red' size='5'>Profile not edited</font>";					
+				}  
+		   }
 		   	 public function deleteMember()
 		   {
 				$id = $_SESSION['userid'];
@@ -159,8 +186,6 @@ function __construct(){
 		 }		
       public function uploadProfilePic()
 	  {
-		  //if((isset($_SESSION['userid'])))
-		//  {
 			if(!isset($_FILES['file']))
 			{
 				return $data='';
@@ -185,7 +210,36 @@ function __construct(){
                         return $data = $this->upload->data();
                 }
 			}  
-		  //}
 	  }	  
+	        /*public function uploadProfilePic()
+	  {
+		  if((isset($_SESSION['userid'])))
+		{
+			if(!isset($_FILES['file']))
+			{
+				return $data='';
+			}
+			else
+			{
+				$config['upload_path'] = realpath(APPPATH.'../images');
+			    $config['allowed_types']        = 'jpg|png|jpeg|JPEG|PNG|gif';
+                $config['max_size']             = 10000000000;
+                $config['max_width']            = 100000000024;
+                $config['max_height']           = 70000000068;
+
+                $this->load->library('upload', $config);
+                if ( ! $this->upload->do_upload('file'))
+                {
+                      $error = array('error' => $this->upload->display_errors());
+
+                     print_r($error);
+                }
+                else
+                {
+                        return $data = $this->upload->data();
+                }
+			}  
+		}
+	  }*/
 }
 ?>

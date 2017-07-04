@@ -195,14 +195,14 @@
                                                     </div>
                                                     <div class="tab-pane fade" id="profilePicture">
                                                         <h3>Current Picture:</h3>
-                                                        <img class="img-responsive img-profile" src="<?php echo base_url();?>resources/img/profile-full.jpg" alt="">
+                                                        <img class="img-responsive img-profile" src="<?php echo base_url();?>images/<?php echo $_SESSION['photo'];?>" alt="">
                                                         <br>
-                                                        <form role="form">
+                                                        <?php echo form_open_multipart('admin/updateMemberPic', 'class="form"  data-parsley-validate');?>
                                                             <div class="form-group">
                                                                 <label>Choose a New Image</label>
-                                                                <input type="file">
+                                                                <input type="file" name="file" required id="file">
                                                                 <p class="help-block"><i class="fa fa-warning"></i> Image must be no larger than 500x500 pixels. Supported formats: JPG, GIF, PNG</p>
-                                                                <button type="submit" class="btn btn-default">Update Profile Picture</button>
+                                                                <button type="submit" onclick="editPic()" class="btn btn-default">Update Profile Picture</button>
                                                                 <button class="btn btn-green">Cancel</button>
                                                             </div>
                                                         </form>
@@ -347,6 +347,33 @@ $.blockUI({ message: $('#question'), css: { width: '300px' } });
 
 return false;
 });
+
+ function editPic()() {
+var	_file = document.getElementById('file'); 
+		var file = _file.files[0];	
+	}
+var xmlhttp;
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+	
+    document.getElementById("load").innerHTML= xmlhttp.responseText;
+    }
+  }
+$.blockUI();
+xmlhttp.open("POST","<?php echo base_url(); ?>" + "index.php/admin/updateMemberPic",true);
+xmlhttp.send(data);
+setTimeout($.unblockUI, 2000);
+}
 </script> 
 
 
