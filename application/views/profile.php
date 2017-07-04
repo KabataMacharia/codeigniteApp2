@@ -42,7 +42,7 @@
                                                 <a href="#">
                                                     <span class="profile-edit">Edit</span>
                                                 </a>
-                                                <img class="img-responsive img-profile" src="<?php echo base_url();?>resources/img/profile-full.jpg" alt="">
+                                                <img class="img-responsive img-profile" src="<?php echo base_url();?>images/<?php echo $_SESSION['photo'];?>" alt="">
                                                 <div class="list-group">
                                                     <a href="#" class="list-group-item active">Overview</a>
                                                     <a href="#" class="list-group-item">Messages<span class="badge green">4</span></a>
@@ -51,7 +51,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-7 col-md-5">
-                                                <h1>John Smith</h1>
+                                                <h1><?php echo  $_SESSION['fname']." ".  $_SESSION['lname'];?></h1>
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat diam quis nisl vestibulum dignissim. In hac habitasse platea dictumst. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam placerat nunc ut tellus tristique, non posuere neque iaculis.</p>
                                                 <ul class="list-inline">
                                                     <li><i class="fa fa-map-marker fa-muted"></i> Bayville, FL</li>
