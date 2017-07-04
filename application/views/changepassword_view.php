@@ -45,21 +45,25 @@
                 <div class="portlet portlet-green">
                     <div class="portlet-heading login-heading">
                         <div class="portlet-title">
-                            <h4><strong>Retrieve your Password</strong>
+                            <h4><strong>Change your Password</strong>
                             </h4>
 							 <p id='load'></p>
                         </div>
                         <div class="clearfix"></div>
                     </div>
                     <div class="portlet-body">
-                          <?php echo form_open('admin/forgotPassword', 'class="form"  data-parsley-validate');?>
+                          <?php echo form_open('admin/recoverPassword', 'class="form"  data-parsley-validate');?>
                             <fieldset>
+							<input type="hidden" name="token" id="token" value="<?php echo $token;?>"/>
                                 <div class="form-group">
-									<input type="text" name="email" id="email" required data-parsley-type="email" class="form-control" placeholder="Email Address">
+                                     <input type="password" name="password" id="password" required class="form-control" placeholder="New Password">
                                 </div>
-
+								<div class="form-group">
+									<input type="password" name="cpassword" id="cpassword" required data-parsley-equalto="#password" class="form-control" placeholder="Confirm Password">
+                                </div>
+              
                                 <br>
-                             <button type="submit" id="submit" class="btn btn-success btn-block btn-flat">Recover Password</button>
+                             <button type="submit" id="submit" class="btn btn-success btn-block btn-flat">Change Password</button>
 		
                             </fieldset>
                             <br>
@@ -93,14 +97,15 @@
 
 <script type="text/javascript">
 
+
 $('.form').submit(function(e) {
 
 $.ajax({
-url: "<?php echo base_url(); ?>" + "index.php/admin/forgotPassword",
+url: "<?php echo base_url(); ?>" + "index.php/admin/recoverPassword",
 type: 'POST',
 data: $('.form').serialize(),
 success: function(data) {
-	  $.blockUI({ message: "<h3><font color='red'>Sending...</h3></font>" }); 
+	  $.blockUI({ message: "<h3><font color='red'>Changing...</h3></font>" }); 
    if(data=='1'){
 	$("#load").hide();
 	window.location.href = '<?php echo base_url(); ?>index.php/login' 

@@ -147,29 +147,58 @@ function __construct(){
 				}  
 		   }
           public function forgotPassword()
-		 {	
+		 {	 
 			$username = $this->input->post('email');	
-			$password = sha1($this->input->post('password'));	
-			$confirmpassword = sha1($this->input->post('confirm'));
 			$this->db->where('email',$username);	
 			$this->db->where('deleted','N');			
 			$query = $this->db->get('login');	
-			if($query->num_rows()>0){
+			if($query->num_rows()>0)
+			{
+				
+				$token=mt_rand(); 
+				$base= base_url();
+				$link=htmlspecialchars($base."index.php/admin/retrieve/$token");
 				$data = array(
-				'password' =>$confirmpassword
+				'token'=>$token
 				);	
-				$this->db->where('email',$username);
-				$this->db->update('login', $data);		
+				$this->db->update('login', $data);
 				if($this->db->affected_rows() > 0)
 				{
-			    echo "<font color='blue' size='5'>Your Password has Changed. You can login</font>";	
-				}else{
-				echo "<font color='red' size='5'>Your Password has not Changed</font>";		
-				}
-			}else{
-			  echo "<font color='red' size='5'>The email is not registered in our system</font>";
-			}	
+			    echo "<font color='blue' size='5'>Password Link is sent to your email</font>";		
+			   	$config['mailtype'] = 'html';
+				$config['protocol']='smtp';
+				$config['smtp_host']='ssl://smtp.googlemail.com';
+				$config['smtp_port']=465;
+				$config['smtp_user']='brendahtest@gmail.com';
+				$config['smtp_pass']='mambo2017';
+				$this->load->library('email',$config);
+				$this->email->set_newline("\r\n");
+				
+			   $this->email->set_mailtype("html");
+			   $this->email->from('brendahtest@gmail.com');
+			   $this->email->to($username);
+			   $this->email->subject('Password Link from Login Application');
+			   $this->email->message('Please click on this link to retrieve your password '.$link);
+				$true= @$this->email->send();			
+			}
+		
+		 }
+		 else
+		{
+		 echo "<font color='red' size='5'>The email is not registered in our system</font>";
+		}
 		 }		
+		public function retrieve()
+		{
+		  if($this->uri->segment('3')!=null)
+		  {
+			$token=$this->uri->segment('3');
+			$this->db->where('token',$token);	
+			$this->db->where('deleted','N');			
+			return $this->db->get('login');	
+		    }
+
+		}		 
          public function getUser()
 		 {
 			 $id = $_SESSION['userid'];
@@ -241,6 +270,31 @@ function __construct(){
 			{
 			  echo "<font color='red' size='5'>The old password is incorrect</font>";
 			}	
+		 }	
+		     public function recoverPassword()
+		 {		
+			$newpassword = sha1(trim($this->input->post('cpassword')));
+	        $token=trim($this->input->post('token'));
+			$this->db->where('token',$token);	
+			$this->db->where('deleted','N');			
+			$query = $this->db->get('login');	
+			if($query->num_rows()>0)
+			{
+				$data = array(
+				'password' =>$newpassword
+				);	
+			    $this->db->where('token',$token);	
+				$this->db->update('login', $data);		
+				if($this->db->affected_rows() > 0)
+				{
+			    echo "<font color='blue' size='5'>Your Password has Changed.</font>";	
+				}
+				else
+				{
+				echo "<font color='red' size='5'>Your Password has not Changed</font>";		
+				}
+			}
+	
 		 }	
 }
 ?>

@@ -30,7 +30,6 @@ class Admin extends CI_Controller {
 		public function password()
 		{
 			$data['title'] = 'Forgot Password';
-			$this->load->view('table_header');
 		    $this->load->view('forgotpassword_view',$data);
 		}
 		public function login(){
@@ -79,6 +78,21 @@ class Admin extends CI_Controller {
 		$this->Admin_model->changePassword();
 		
 		}
+		public function retrieve()
+		{
+		
+		$q=$this->Admin_model->retrieve();
+		if($q!=null)
+		{
+		$data['token'] = $this->uri->segment('3');
+		 $this->load->view('changepassword_view',$data);	
+
+		}
+		else
+		{
+	    echo "Please use the correct link";  
+		}
+		}
 		public function logout(){
 		session_destroy();
 	    redirect('admin');
@@ -88,6 +102,10 @@ class Admin extends CI_Controller {
          public function getUser()
 		 {
 			$this->Admin_model->getUser(); 
+		 }
+		  public function recoverPassword()
+		 {
+			$this->Admin_model->recoverPassword(); 
 		 }
 }
 ?>
