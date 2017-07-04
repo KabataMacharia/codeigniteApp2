@@ -74,6 +74,11 @@ class Admin extends CI_Controller {
 		$this->Admin_model->forgotPassword();
 		
 		}
+		public function changePassword()
+		{
+		$this->Admin_model->changePassword();
+		
+		}
 		public function logout(){
 		session_destroy();
 	    redirect('admin');

@@ -101,7 +101,7 @@ function __construct(){
 				echo "<font color='red' size='5'>Profile not edited</font>";					
 				}  
 		   }
-		   		   public function updateMemberPic()
+		   		  public function updateMemberPic()
 		   {
 			   $data=$this->uploadProfilePic();
 				if($data=='')
@@ -151,7 +151,8 @@ function __construct(){
 			$username = $this->input->post('email');	
 			$password = sha1($this->input->post('password'));	
 			$confirmpassword = sha1($this->input->post('confirm'));
-			$this->db->where('email',$username);					
+			$this->db->where('email',$username);	
+			$this->db->where('deleted','N');			
 			$query = $this->db->get('login');	
 			if($query->num_rows()>0){
 				$data = array(
@@ -211,35 +212,35 @@ function __construct(){
                 }
 			}  
 	  }	  
-	        /*public function uploadProfilePic()
-	  {
-		  if((isset($_SESSION['userid'])))
-		{
-			if(!isset($_FILES['file']))
+         public function changePassword()
+		 {	
+			 $id = $_SESSION['userid'];	
+			$password = sha1(trim($this->input->post('oldpassword')));	
+			$newpassword = sha1(trim($this->input->post('retypepassword')));
+			$this->db->where('id',$id);
+			$this->db->where('password',$password);	
+			$this->db->where('deleted','N');			
+			$query = $this->db->get('login');	
+			if($query->num_rows()>0)
 			{
-				return $data='';
+				$data = array(
+				'password' =>$newpassword
+				);	
+				$this->db->where('id',$id);
+				$this->db->update('login', $data);		
+				if($this->db->affected_rows() > 0)
+				{
+			    echo "<font color='blue' size='5'>Your Password has Changed.</font>";	
+				}
+				else
+				{
+				echo "<font color='red' size='5'>Your Password has not Changed</font>";		
+				}
 			}
 			else
 			{
-				$config['upload_path'] = realpath(APPPATH.'../images');
-			    $config['allowed_types']        = 'jpg|png|jpeg|JPEG|PNG|gif';
-                $config['max_size']             = 10000000000;
-                $config['max_width']            = 100000000024;
-                $config['max_height']           = 70000000068;
-
-                $this->load->library('upload', $config);
-                if ( ! $this->upload->do_upload('file'))
-                {
-                      $error = array('error' => $this->upload->display_errors());
-
-                     print_r($error);
-                }
-                else
-                {
-                        return $data = $this->upload->data();
-                }
-			}  
-		}
-	  }*/
+			  echo "<font color='red' size='5'>The old password is incorrect</font>";
+			}	
+		 }	
 }
 ?>

@@ -195,35 +195,37 @@
                                                     </div>
                                                     <div class="tab-pane fade" id="profilePicture">
                                                         <h3>Current Picture:</h3>
+														 <p id='load1'></p>
                                                         <img class="img-responsive img-profile" src="<?php echo base_url();?>images/<?php echo $_SESSION['photo'];?>" alt="">
                                                         <br>
-                                                        <?php echo form_open_multipart('admin/updateMemberPic', 'class="form"  data-parsley-validate');?>
+                                                        <?php echo form_open_multipart('admin/updateMemberPic', 'id="form1"  data-parsley-validate');?>
                                                             <div class="form-group">
                                                                 <label>Choose a New Image</label>
                                                                 <input type="file" name="file" required id="file">
                                                                 <p class="help-block"><i class="fa fa-warning"></i> Image must be no larger than 500x500 pixels. Supported formats: JPG, GIF, PNG</p>
-                                                                <button type="submit" onclick="editPic()" class="btn btn-default">Update Profile Picture</button>
+                                                                <button type="submit"  class="btn btn-default">Update Profile Picture</button>
                                                                 <button class="btn btn-green">Cancel</button>
                                                             </div>
                                                         </form>
                                                     </div>
                                                     <div class="tab-pane fade in" id="changePassword">
                                                         <h3>Change Password:</h3>
-                                                        <form role="form">
+														 <p id='load2'></p>
+                                                           <?php echo form_open('admin/changePassword', 'id="form2"  data-parsley-validate');?>
                                                             <div class="form-group">
                                                                 <label>Old Password</label>
-                                                                <input type="password" class="form-control" value="">
+																<input type="password" name="oldpassword" id="oldpassword" required class="form-control">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label>New Password</label>
-                                                                <input type="password" class="form-control" value="">
+                                                              <input type="password" name="newpassword" id="newpassword" required class="form-control">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label>Re-Type New Password</label>
-                                                                <input type="password" class="form-control" value="">
+                                                               <input type="password" name="retypepassword" id="retypepassword" required data-parsley-equalto="#newpassword" class="form-control">
                                                             </div>
-                                                            <button type="submit" class="btn btn-default">Update Password</button>
-                                                            <button class="btn btn-green">Cancel</button>
+                                                            <button type="submit" id="changePass" class="btn btn-default">Update Password</button>
+                                                         
                                                         </form>
                                                     </div>
                                                 </div>
@@ -289,7 +291,7 @@
 
     <!-- THEME SCRIPTS -->
     <script src="<?php echo base_url();?>resources/js/flex.js"></script>
-				    <script src="<?php echo base_url();?>resources/js/blockUI.js" type="text/javascript" charset="utf-8"></script>
+ <script src="<?php echo base_url();?>resources/js/blockUI.js" type="text/javascript" charset="utf-8"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.7.2/parsley.min.js"></script>
 
 </body>
@@ -348,10 +350,19 @@ $.blockUI({ message: $('#question'), css: { width: '300px' } });
 return false;
 });
 
- function editPic()() {
+ $('#form1').submit(function() {
+	
 var	_file = document.getElementById('file'); 
+				if(_file.files.length === 0){
+    var data = new FormData();
+
+	}else{
+		var data = new FormData();
+		
+		data.append('file', _file.files[0]);
 		var file = _file.files[0];	
 	}
+	
 var xmlhttp;
 if (window.XMLHttpRequest)
   {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -365,16 +376,40 @@ xmlhttp.onreadystatechange=function()
   {
   if (xmlhttp.readyState==4 && xmlhttp.status==200)
     {
-	
-    document.getElementById("load").innerHTML= xmlhttp.responseText;
+		
+    document.getElementById("load1").innerHTML= xmlhttp.responseText;
     }
   }
 $.blockUI();
+ 
 xmlhttp.open("POST","<?php echo base_url(); ?>" + "index.php/admin/updateMemberPic",true);
 xmlhttp.send(data);
 setTimeout($.unblockUI, 2000);
-}
+return false;
+});
+
+$('#form2').submit(function(e) {
+
+$.ajax({
+url: "<?php echo base_url(); ?>" + "index.php/admin/changePassword",
+type: 'POST',
+data: $('#form2').serialize(),
+success: function(data) {
+	$.blockUI();
+if(data=='1'){
+	$("#load2").html(data);
+	}
+	else{
+	$("#load2").html(data);
+    }
+	setTimeout($.unblockUI, 2000);
+},error: function(XMLHttpRequest, textStatus, errorThrown) {
+console.log(XMLHttpRequest);
+
+	   }
+});
+e.preventDefault();
+});
+
 </script> 
-
-
 </html>
