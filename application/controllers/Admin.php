@@ -13,6 +13,12 @@ class Admin extends CI_Controller {
 		}
 		public function profile()
 		{
+			if(!isset($_SESSION['userid']))
+			{
+				 redirect('admin');
+			}
+			else
+			{
 		    $result=  $this->Admin_model->getUser();
 			$data['fname'] = $result->fname;
 			$data['lname'] = $result->lname;
@@ -20,6 +26,7 @@ class Admin extends CI_Controller {
 		    $this->load->view('table_header');
 		    $this->load->view('profile',$data);
 			$this->load->view('table_footer');
+			}
 		}
 		public function registration()
 		{

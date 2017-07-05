@@ -1,14 +1,23 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Verify extends CI_Controller {
-		function __construct(){
+		function __construct()
+		{
 			parent::__construct();
-		    $this->load->model('Admin_model');
+		    $this->load->model('Admin_model');			
 		}
 
-	public function index(){
-	$data['title'] = 'Verification';
-    $this->load->view('verification',$data);
+	public function index()
+	{
+		if(!isset($_SESSION['userid']))
+		{
+			 redirect('admin');
+		}
+		else
+		{
+			$data['title'] = 'Verification';
+			$this->load->view('verification',$data);
+		}
 	}
 		 
 	public function verifycode()
