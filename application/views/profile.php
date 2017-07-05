@@ -9,7 +9,7 @@
                         <div class="page-title">
                             <h1>
                                 User Profile
-                                <small>Sample User Information</small>
+                                <small> User Information</small>
                             </h1>
                             <ol class="breadcrumb">
                                 <li><i class="fa fa-dashboard"></i>  <a href="index-2.html">Dashboard</a>
@@ -51,7 +51,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-7 col-md-5">
-                                                <h1><?php echo  $_SESSION['fname']." ".  $_SESSION['lname'];?></h1>
+                                                <h1><?php echo  $_SESSION['username']; ?></h1>
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat diam quis nisl vestibulum dignissim. In hac habitasse platea dictumst. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam placerat nunc ut tellus tristique, non posuere neque iaculis.</p>
                                                 <ul class="list-inline">
                                                     <li><i class="fa fa-map-marker fa-muted"></i> Bayville, FL</li>
@@ -165,7 +165,10 @@
                                                 <div id="userSettingsContent" class="tab-content">
                                                     <div class="tab-pane fade in active" id="basicInformation">
                                                        <?php echo form_open('admin/updateMember', 'class="form"  data-parsley-validate');?>
-													   <p id='load'></p>
+													   <div class="form-group">
+													   <div hidden class="alert alert-danger" id='load'>
+														</div>
+														</div>
                                                             <h4 class="page-header">Personal Information:</h4>
                                                             <div class="form-group">
                                                                 <label>First Name</label>
@@ -176,7 +179,15 @@
                                                                 <label>Last Name</label>
                                                                  <input type="text" name="lname" id="lname" required class="form-control" value="<?php echo $lname; ?>">
                                                             </div>
-                                            
+                                                             <div class="form-group">
+                                                                <label>Telephone No</label>
+                                                       
+																<input type="text" name="phone" id="phone" required class="form-control" value="<?php echo $phone; ?>">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Address</label>
+                                                                 <input type="text" name="address" id="address" required class="form-control" value="<?php echo $address; ?>">
+                                                            </div>
                                                             <h4 class="page-header">Contact Details:</h4>
                                                             <div class="form-group">
                                                                 <label><i class="fa fa-envelope-o fa-fw"></i> Email Address</label>
@@ -210,9 +221,12 @@
                                                     </div>
                                                     <div class="tab-pane fade in" id="changePassword">
                                                         <h3>Change Password:</h3>
-														 <p id='load2'></p>
-                                                           <?php echo form_open('admin/changePassword', 'id="form2"  data-parsley-validate');?>
-                                                            <div class="form-group">
+														
+															 <?php echo form_open('admin/changePassword', 'id="form2"  data-parsley-validate');?>
+														  <div class="form-group">
+														   <div hidden class="alert alert-danger" id='load2'>
+															</div>
+															<div class="form-group">
                                                                 <label>Old Password</label>
 																<input type="password" name="oldpassword" id="oldpassword" required class="form-control">
                                                             </div>
@@ -297,50 +311,109 @@
 </body>
 
 <script type="text/javascript">
-$('#submit').click(function() {
-	var form_data = {
-		fname:$("#fname").val(),
-		lname:$("#lname").val(),
-		email:$("#email").val()
-	};
-$.ajax({
-url: "<?php echo base_url(); ?>" + "index.php/admin/updateMember",
-type: 'POST',
-data: form_data,
-success: function(data) {
-	$.blockUI();
-if(data=='1'){
-  $("#load").hide();
-	window.location.href = '<?php echo base_url(); ?>index.php/welcome' 
-	}
-	else{
-		
-	$("#load").html(data);
+	function getCookie(name) {
+    	var cookieValue = null;
+    	if (document.cookie && document.cookie !== '') {
+    		var cookies = document.cookie.split(';');
+    		for (var i = 0; i < cookies.length; i++) {
+    			var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                	cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                	break;
+                }
+            }
+        }
+        return cookieValue;
     }
-	setTimeout($.unblockUI, 2000);
-	}
+    
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    } 
+$('#submit').click(function() {
+			var csrftoken = getCookie('csrf_cookie_name');
+			
+				var $formdata = $('.form').serializeArray();
+					
+				$formdata.push({
+					name: "csrf_cookie_name",
+					value: csrftoken
+				});
+			$.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "index.php/admin/updateMember",
+            data: $formdata,
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+      			
+            },
+            cache: false,
+            success: function(data) {
+			$.blockUI();
+		   if(data=='1'){
+			
+			}
+			else{
+			$("#load").html(data).show();
+			}
+			setTimeout($.unblockUI, 2000);
+						
 
-	
-});
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) { // on error..
+						
+						
+					}
+				});
+
 return false;
 });
 $('#delete').click(function() {
+	var csrftoken = getCookie('csrf_cookie_name');
+			
+	var $formdata = $('.form').serializeArray();
+					
+	$formdata.push({
+	name: "csrf_cookie_name",
+	value: csrftoken
+	});
 $.blockUI({ message: $('#question'), css: { width: '300px' } }); 
 
  $('#yes').click(function() { 
             // update the block message 
             $.blockUI({ message: "<h3><font color='red'>Deleting...</h3></font>" }); 
- 
-            $.ajax({ 
-                url: "<?php echo base_url(); ?>" + "index.php/admin/deleteMember",
-				type: 'POST',
-                cache: false, 
-                complete: function() { 
-              
-                    $.unblockUI(); 
-                } 
-            }); 
-			    $("#load").html(data);
+ 			$.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "index.php/admin/deleteMember",
+            data: $formdata,
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+      			
+            },
+            cache: false,
+            success: function(data) {
+			$.blockUI();
+		   if(data=='1'){
+			
+			}
+			else{
+			$("#load").html(data).show();
+			}
+			setTimeout($.unblockUI, 2000);
+						
+
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) { // on error..
+						
+						
+					}
+				});
+    
         }); 
 		   $('#no').click(function() { 
             $.unblockUI(); 
@@ -352,62 +425,93 @@ return false;
 
  $('#form1').submit(function() {
 	
-var	_file = document.getElementById('file'); 
-				if(_file.files.length === 0){
-    var data = new FormData();
-
-	}else{
+        var csrftoken = getCookie('csrf_cookie_name');
+    
+		var formdata = $('#form1').serializeArray();
+		var	_file = document.getElementById('file'); 
+		if(_file.files.length === 0){
 		var data = new FormData();
-		
-		data.append('file', _file.files[0]);
-		var file = _file.files[0];	
-	}
+
+		}else{
+			var data = new FormData();
+			
+			data.append('file', _file.files[0]);
+			data.append('csrf_cookie_name',csrftoken);
+			var file = _file.files[0];	
+		}
+     
 	
-var xmlhttp;
-if (window.XMLHttpRequest)
-  {// code for IE7+, Firefox, Chrome, Opera, Safari
-  xmlhttp=new XMLHttpRequest();
-  }
-else
-  {// code for IE6, IE5
-  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  }
-xmlhttp.onreadystatechange=function()
-  {
-  if (xmlhttp.readyState==4 && xmlhttp.status==200)
-    {
-		
-    document.getElementById("load1").innerHTML= xmlhttp.responseText;
-    }
-  }
-$.blockUI();
- 
-xmlhttp.open("POST","<?php echo base_url(); ?>" + "index.php/admin/updateMemberPic",true);
-xmlhttp.send(data);
-setTimeout($.unblockUI, 2000);
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "index.php/admin/updateMemberPic",
+            data: data,
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+      			
+            },
+            cache: false,
+			processData: false ,
+			contentType: false,
+            success: function(data) {
+			$.blockUI();
+		   if(data=='1'){
+			
+			}
+			else{
+			$("#load1").html(data).show();
+			}
+			setTimeout($.unblockUI, 2000);
+						
+
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) { // on error..
+						
+						
+					}
+				});
 return false;
 });
 
 $('#form2').submit(function(e) {
+var csrftoken = getCookie('csrf_cookie_name');
+			
+var $formdata = $('#form2').serializeArray();
+					
+				$formdata.push({
+					name: "csrf_cookie_name",
+					value: csrftoken
+				});
+			$.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "index.php/admin/changePassword",
+            data: $formdata,
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+      			
+            },
+            cache: false,
+            success: function(data) {
+			$.blockUI();
+		   if(data=='1'){
+			//$("#load").html(data).show();
+			}
+			else{
+			$("#load2").html(data).show();
+			}
+			setTimeout($.unblockUI, 2000);
+						
 
-$.ajax({
-url: "<?php echo base_url(); ?>" + "index.php/admin/changePassword",
-type: 'POST',
-data: $('#form2').serialize(),
-success: function(data) {
-	$.blockUI();
-if(data=='1'){
-	$("#load2").html(data);
-	}
-	else{
-	$("#load2").html(data);
-    }
-	setTimeout($.unblockUI, 2000);
-},error: function(XMLHttpRequest, textStatus, errorThrown) {
-console.log(XMLHttpRequest);
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) { // on error..
+						
+						
+					}
+				});
 
-	   }
-});
 e.preventDefault();
 });
 

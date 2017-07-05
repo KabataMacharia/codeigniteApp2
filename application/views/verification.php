@@ -47,13 +47,16 @@
                         <div class="portlet-title">
                             <h4><strong>Enter Verification Code</strong>
                             </h4>
-							<p id='load'></p>
+							
                         </div>
                         <div class="clearfix"></div>
                     </div>
                     <div class="portlet-body">
                         <?php echo form_open('verify/verifycode', 'class="form"  data-parsley-validate');?>
                             <fieldset>
+						 <div hidden class="alert alert-danger" id='load'>
+						  
+						</div>
                                 <div class="form-group">
                  
 								 <input type="text" name="code" id="code" required class="form-control" placeholder="Enter code">
@@ -84,25 +87,64 @@
     <!-- iCheck -->
 	<script src="<?php echo base_url();?>resources/plugins/iCheck/icheck.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-
-<script type="text/javascript">
-
-$('.form').submit(function(e) {
-$.ajax({
-url: "<?php echo base_url(); ?>" + "index.php/verify/verifycode",
-type: 'POST',
-data: $('.form').serialize(),
-success: function(data) {
-$.blockUI();
-
-if(data=='1'){
-	
-	}else{
-	$("#load").html(data);
+	function getCookie(name) {
+    	var cookieValue = null;
+    	if (document.cookie && document.cookie !== '') {
+    		var cookies = document.cookie.split(';');
+    		for (var i = 0; i < cookies.length; i++) {
+    			var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                	cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                	break;
+                }
+            }
+        }
+        return cookieValue;
     }
-	setTimeout($.unblockUI, 2000);
-}
-});
+    
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }  
+$('.form').submit(function(e) {
+		var csrftoken = getCookie('csrf_cookie_name');
+			
+		var $formdata = $('.form').serializeArray();
+					
+		$formdata.push({
+			name: "csrf_cookie_name",
+		   value: csrftoken
+		   });
+          $.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "index.php/verify/verifycode",
+            data: $formdata,
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+      			
+            },
+            cache: false,
+            success: function(data) {
+			$.blockUI();
+		   if(data=='1'){
+			window.location.href = '<?php echo base_url(); ?>index.php/welcome' 
+			}
+			else{
+			$("#load").html(data).show();
+			}
+			setTimeout($.unblockUI, 2000);
+						
+
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) { // on error..
+						
+						
+					}
+				});
+
 e.preventDefault();
 });
 

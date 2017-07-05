@@ -23,6 +23,8 @@ class Admin extends CI_Controller {
 			$data['fname'] = $result->fname;
 			$data['lname'] = $result->lname;
 			$data['email'] = $result->email;
+			$data['address'] = $result->address;
+			$data['phone'] = $result->phone;
 		    $this->load->view('table_header');
 		    $this->load->view('profile',$data);
 			$this->load->view('table_footer');
@@ -43,19 +45,20 @@ class Admin extends CI_Controller {
 			$email= $this->input->post('email_address');
 		    $password= $this->input->post('password');
             $result=  $this->Admin_model->verify_user($email, $password);
+			
 		      if($result!==false)
 			    {
 				$_SESSION['photo']=$result->photo;
-				$_SESSION['fname']=$result->fname;
-				$_SESSION['lname']=$result->lname;
-				$_SESSION['userid']=$result->id;
+				$_SESSION['username']=$result->username;
+				$_SESSION['userid']=$result->userid;
+				$_SESSION['userrole']=$result->userrole;
 				$code=  $this->Admin_model->send_code();
 				$_SESSION['code']=$code;
 				echo '1';
 				}
 				else
 				{
-				echo "<font color='red' size='5'>Your email or password is incorrect!!!</font>";
+				echo "<font color='red' size='3px'>Your email or password is incorrect!!!</font>";
 				}
 			
 		}

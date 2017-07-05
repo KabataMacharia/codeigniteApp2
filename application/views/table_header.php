@@ -514,7 +514,7 @@
                             <li>
                                 <a class="logout_open" href="<?php echo base_url();?>index.php/admin/logout">
                                     <i class="fa fa-sign-out"></i> Logout
-                                    <strong><?php echo $_SESSION['fname'] ." ".$_SESSION['lname'];?></strong>
+                                    <strong><?php echo $_SESSION['username'];?></strong>
                                 </a>
                             </li>
                         </ul>
@@ -544,8 +544,8 @@
                             <i class="fa fa-key"></i> Logged in as
                         </p>
                         <p class="name tooltip-sidebar-logout">
-                            <?php echo $_SESSION['fname']; ?>
-                            <span class="last-name"><?php echo $_SESSION['lname']; ?></span> <a style="color: inherit" class="logout_open" href="#logout" data-toggle="tooltip" data-placement="top" title="Logout"><i class="fa fa-sign-out"></i></a>
+                         
+                            <span class="last-name"><?php echo $_SESSION['username']; ?></span> <a style="color: inherit" class="logout_open" href="#logout" data-toggle="tooltip" data-placement="top" title="Logout"><i class="fa fa-sign-out"></i></a>
                         </p>
                         <div class="clearfix"></div>
                     </li>

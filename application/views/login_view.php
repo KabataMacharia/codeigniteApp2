@@ -47,7 +47,7 @@
                         <div class="portlet-title">
                             <h4><strong>Login!</strong>
                             </h4>
-							<p id='load'></p>
+							
                         </div>
                         <div class="portlet-widgets">
                           
@@ -58,7 +58,11 @@
                     </div>
                     <div class="portlet-body">
                          <?php echo form_open('admin/login', 'class="form"  data-parsley-validate');?>
+						
                             <fieldset>
+							 <div hidden class="alert alert-danger" id='load'>
+						  
+						     </div>
                                 <div class="form-group">
                  
 									<input type="text" name="email_address" id="email_address" required data-parsley-type="email" class="form-control" placeholder="Email">
@@ -104,29 +108,69 @@
               <script src="<?php echo base_url();?>resources/js/blockUI.js" type="text/javascript" charset="utf-8"></script>
 
 <script type="text/javascript">
-
-$('.form').submit(function(e) {
-$.ajax({
-url: "<?php echo base_url(); ?>" + "index.php/admin/login",
-type: 'POST',
-data: $('.form').serialize(),
-success: function(data) {
-	$.blockUI();
-if(data=='1'){
-	window.location.href = '<?php echo base_url(); ?>index.php/verify' 
-	}
-	else{
-	$("#load").html(data);
+	function getCookie(name) {
+    	var cookieValue = null;
+    	if (document.cookie && document.cookie !== '') {
+    		var cookies = document.cookie.split(';');
+    		for (var i = 0; i < cookies.length; i++) {
+    			var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                	cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                	break;
+                }
+            }
+        }
+        return cookieValue;
     }
-	setTimeout($.unblockUI, 2000);
-},error: function(XMLHttpRequest, textStatus, errorThrown) {
-console.log(XMLHttpRequest);
+    
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }     
+	
+	$('.form').submit(function(e) {
+        
+        var csrftoken = getCookie('csrf_cookie_name');
+    
+        var $formdata = $('.form').serializeArray();
+		    
+        $formdata.push({
+            name: "csrf_cookie_name",
+            value: csrftoken
+        });
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "index.php/admin/login",
+            data: $formdata,
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+      			
+            },
+            cache: false,
+            success: function(data) {
+			$.blockUI();
+		   if(data=='1'){
+			 
+			window.location.href = '<?php echo base_url(); ?>index.php/verify' 
+			}
+			else{
+			$("#load").html(data).show();
+			}
+			setTimeout($.unblockUI, 2000);
+						
 
-	   }
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) { // on error..
+						
+						
+					}
+				});
+				
+ e.preventDefault();
 });
-e.preventDefault();
-});
-
 </script> 
 
 </html>

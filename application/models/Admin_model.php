@@ -3,12 +3,50 @@ use telesign\sdk\messaging\MessagingClient;
 use function telesign\sdk\util\randomWithNDigits;
 class Admin_model extends CI_Model {
 
-function __construct(){
-	
-}
+					function __construct(){
+						
+					}
 
-	
-			public function verify_user($email, $password){
+				public function lastnumber(){
+				$query=$this->db->get('plastnumbers');
+				
+				foreach ($query->result() as $row)
+					{
+				$member=$row->member_no;
+					}
+				$number_of_digits = strlen($member);
+				switch($number_of_digits ){
+				case "1":
+				$memberno= "M-000000".$member;
+				break;
+				case "2":
+				$memberno= "M-00000".$member;
+				break;
+				case "3":
+				$memberno= "M-0000".$member;
+				break;
+				case "4":
+				$memberno= "M-000".$member;
+				break;
+				case "5":
+				$memberno= "M-00".$member;
+				break;
+				case "6":
+				$memberno= "M-0".$member;
+				break;
+				case "7":
+				$memberno= "M-".$member;
+				break;
+			
+			}
+			
+			$no = $member +1;
+			$this->db->set('member_no',$no);
+			$this->db->update('plastnumbers');
+			return $memberno;
+			}
+
+				public function verify_user($email, $password){
 				$this->db->where('email',$email);
 				$this->db->where('deleted','N');
 				$this->db->where('password',sha1($password));
@@ -37,9 +75,9 @@ function __construct(){
 
 
 				}
-
 	public function saveMember()
-		{
+		{       
+		        $no = $this->lastnumber();
 				$data=$this->uploadProfilePic();
 				if($data=='')
 				{
@@ -50,21 +88,35 @@ function __construct(){
 			   $file=$data['file_name'];
 				}
 				$data = array(
+				'member_no'=>$no,
 				'fname' =>trim($this->input->post('fname')),
 			    'lname' =>trim($this->input->post('lname')),
 				'email' =>trim($this->input->post('email')),
-				'password' => sha1(trim($this->input->post('cpassword'))),
+				'address' =>trim($this->input->post('address')),
+				'phone' =>trim($this->input->post('phone')),
 				'deleted' =>'N',
+				'active' =>'N',
 				'photo'=>$file
 				);	
-				$this->db->insert('login', $data);
+				$this->db->insert('member', $data);
+				$logindata = array(
+				'userid'=>$no,
+				'email' =>trim($this->input->post('email')),
+				'password' => sha1(trim($this->input->post('cpassword'))),
+				'username' => trim($this->input->post('fname'))." ".trim($this->input->post('lname')),
+				'userrole' => 'member',
+				'photo'=>$file,
+				'active' => 'N',
+				'deleted' => 'N'
+				);
+				$this->db->insert('login', $logindata); 
 				if($this->db->affected_rows() > 0)
 				{
-			   echo "<font color='blue' size='5'>You have registered successfully.Click Login!!</font>";		
+			   echo "<font color='blue' size='3px'>You have registered successfully.Click Login!!</font>";		
 				}
 				else
 				{
-				echo "<font color='red' size='5'>You are not registered.</font>";					
+				echo "<font color='red' size='3px'>You are not registered.</font>";					
 				}					
 		}	
 		 public function checkEmail()
@@ -77,28 +129,37 @@ function __construct(){
 			{
 			$this->saveMember();
 			}else{
-		    echo "<font color='red' size='5'>This Email Exists!! Please use another email</font>";
+		    echo "<font color='red' size='3px'>This Email Exists!! Please use another email</font>";
 			}	
 			
 		   } 
 		   public function updateMember()
 		   {
 				$id = $_SESSION['userid'];
-				$this->db->where('id',$id);
+				
 			 	$data = array(
 				'fname' =>trim($this->input->post('fname')),
 			    'lname' =>trim($this->input->post('lname')),
-				'email' =>trim($this->input->post('email'))
+				'email' =>trim($this->input->post('email')),
+				'phone' =>trim($this->input->post('phone')),
+				'address' =>trim($this->input->post('address'))
 				);	
-				$this->db->update('login', $data);
+				$logindata = array(
+				'username' =>trim($this->input->post('fname'))." ". trim($this->input->post('lname')),
+				'email' =>trim($this->input->post('email')),
+				);
+				$this->db->where('member_no',$id);
+				$this->db->update('member', $data);
 				
+				$this->db->where('userid',$id);
+				$this->db->update('login', $logindata);
 				if($this->db->affected_rows() > 0)
 				{
-			   echo "<font color='blue' size='5'>Profile successfully edited</font>";		
+			   echo "<font color='blue' size='3px'>Profile successfully edited</font>";		
 				}
 				else
 				{
-				echo "<font color='red' size='5'>Profile not edited</font>";					
+				echo "<font color='red' size='3px'>Profile not edited</font>";					
 				}  
 		   }
 		   		  public function updateMemberPic()
@@ -113,37 +174,43 @@ function __construct(){
 			   $file=$data['file_name'];
 				}
 				$id = $_SESSION['userid'];
-				$this->db->where('id',$id);
+				
 			 	$data = array(
 				'photo' =>$file
 				);	
+				$this->db->where('member_no',$id);
+				$this->db->update('member', $data);
+				$this->db->where('userid',$id);
 				$this->db->update('login', $data);
 				
 				if($this->db->affected_rows() > 0)
 				{
-			   echo "<font color='blue' size='5'>Profile Picture successfully edited</font>";		
+			   echo "<font color='blue' size='3px'>Profile Picture successfully edited</font>";		
 				}
 				else
 				{
-				echo "<font color='red' size='5'>Profile not edited</font>";					
+				echo "<font color='red' size='3px'>Profile Picture not edited</font>";					
 				}  
 		   }
 		   	 public function deleteMember()
 		   {
 				$id = $_SESSION['userid'];
-				$this->db->where('id',$id);
+				
 			 	$data = array(
 				'deleted' =>'Y'
 				);	
+				$this->db->where('member_no',$id);
+				$this->db->update('member', $data);
+				$this->db->where('userid',$id);
 				$this->db->update('login', $data);
 				
 				if($this->db->affected_rows() > 0)
 				{
-			   echo "<font color='blue' size='5'>Profile successfully deleted</font>";		
+			   echo "<font color='blue' size='3px'>Profile successfully deleted</font>";		
 				}
 				else
 				{
-				echo "<font color='red'>Profile not deleted</font>";					
+				echo "<font color='red' size='3px'>Profile not deleted</font>";					
 				}  
 		   }
           public function forgotPassword()
@@ -185,7 +252,7 @@ function __construct(){
 		 }
 		 else
 		{
-		 echo "<font color='red' size='5'>The email is not registered in our system</font>";
+		 echo "<font color='red' size='3px'>The email is not registered in our system</font>";
 		}
 		 }		
 		public function retrieve()
@@ -202,9 +269,9 @@ function __construct(){
          public function getUser()
 		 {
 			 $id = $_SESSION['userid'];
-			 $this->db->where('id',$id);
+			 $this->db->where('member_no',$id);
 			 $this->db->where('deleted','N');
-			 $query = $this->db->get('login');
+			 $query = $this->db->get('member');
 			if($query->num_rows()>0)
 			{
 			return $query->row();
@@ -218,6 +285,7 @@ function __construct(){
 	  {
 			if(!isset($_FILES['file']))
 			{
+				echo $_FILES['file'];
 				return $data='';
 			}
 			else
@@ -246,29 +314,30 @@ function __construct(){
 			 $id = $_SESSION['userid'];	
 			$password = sha1(trim($this->input->post('oldpassword')));	
 			$newpassword = sha1(trim($this->input->post('retypepassword')));
-			$this->db->where('id',$id);
+			$this->db->where('userid',$id);
 			$this->db->where('password',$password);	
-			$this->db->where('deleted','N');			
+			$this->db->where('deleted','N');	
+			$this->db->where('active','Y');			
 			$query = $this->db->get('login');	
 			if($query->num_rows()>0)
 			{
 				$data = array(
 				'password' =>$newpassword
 				);	
-				$this->db->where('id',$id);
+				$this->db->where('userid',$id);
 				$this->db->update('login', $data);		
 				if($this->db->affected_rows() > 0)
 				{
-			    echo "<font color='blue' size='5'>Your Password has Changed.</font>";	
+			    echo "<font color='blue' size='3px'>Your Password has Changed.</font>";	
 				}
 				else
 				{
-				echo "<font color='red' size='5'>Your Password has not Changed</font>";		
+				echo "<font color='red' size='3px'>Your Password has not Changed</font>";		
 				}
 			}
 			else
 			{
-			  echo "<font color='red' size='5'>The old password is incorrect</font>";
+			  echo "<font color='red' size='3px'>The old password is incorrect</font>";
 			}	
 		 }	
 		     public function recoverPassword()
@@ -287,11 +356,11 @@ function __construct(){
 				$this->db->update('login', $data);		
 				if($this->db->affected_rows() > 0)
 				{
-			    echo "<font color='blue' size='5'>Your Password has Changed.</font>";	
+			    echo "<font color='blue' size='3px'>Your Password has Changed.</font>";	
 				}
 				else
 				{
-				echo "<font color='red' size='5'>Your Password has not Changed</font>";		
+				echo "<font color='red' size='3px'>Your Password has not Changed</font>";		
 				}
 			}
 	

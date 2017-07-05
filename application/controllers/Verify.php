@@ -22,19 +22,16 @@ class Verify extends CI_Controller {
 		 
 	public function verifycode()
 	{
-			$code=$_SESSION['code'];
+		    $code=$_SESSION['code'];
 			$user_entered_verify_code=$this->input->post('code');
 			if ($code == $user_entered_verify_code) 
 			{
 				echo '1';
-				redirect('welcome');
-			 
 			}
 			else 
 			{
 			echo "<font color='red'>Please enter the correct code.</font>";
 			}
-		$this->load->view('verification');
 	}
 		public function logout(){
 		session_destroy();
