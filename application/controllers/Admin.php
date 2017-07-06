@@ -25,9 +25,9 @@ class Admin extends CI_Controller {
 			$data['email'] = $result->email;
 			$data['address'] = $result->address;
 			$data['phone'] = $result->phone;
-		    $this->load->view('table_header');
+			$data['photo'] = $result->photo;
+		    $this->load->view('table_header',$data);
 		    $this->load->view('profile',$data);
-			$this->load->view('table_footer');
 			}
 		}
 		public function registration()
@@ -48,7 +48,6 @@ class Admin extends CI_Controller {
 			
 		      if($result!==false)
 			    {
-				$_SESSION['photo']=$result->photo;
 				$_SESSION['username']=$result->username;
 				$_SESSION['userid']=$result->userid;
 				$_SESSION['userrole']=$result->userrole;

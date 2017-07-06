@@ -539,7 +539,7 @@
                 <ul id="side" class="nav navbar-nav side-nav">
                     <!-- begin SIDE NAV USER PANEL -->
                     <li class="side-user hidden-xs">
-                        <img class="img-circle" src="<?php echo base_url();?>images/<?php if (isset($_SESSION['photo'])){echo  $_SESSION['photo'];}else{ echo "profile.jpg";}?>" alt="">
+                        <img class="img-circle" src="<?php echo base_url();?>images/<?php if (isset($_SESSION['userid'])){echo  $photo;}else{ echo "profile.jpg";}?>" alt="">
                         <p class="welcome">
                             <i class="fa fa-key"></i> Logged in as
                         </p>

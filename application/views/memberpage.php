@@ -629,7 +629,7 @@
     <!-- Logout Notification Box -->
     <div id="logout">
         <div class="logout-message">
-            <img class="img-circle img-logout" src="<?php echo base_url();?>images/<?php echo $_SESSION['photo'];?>" alt="">
+            <img class="img-circle img-logout" src="<?php echo base_url();?>images/<?php echo $photo;?>" alt="">
             <h3>
                 <i class="fa fa-sign-out text-green"></i> Ready to go?
             </h3>

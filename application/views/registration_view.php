@@ -133,25 +133,22 @@
         
         var csrftoken = getCookie('csrf_cookie_name');
     
-			var $formdata = $('.form').serializeArray();
-			var	_file = document.getElementById('file'); 
+		
+		var	_file = document.getElementById('file'); 
 		if(_file.files.length === 0){
-		var data = new FormData();
+		var data = new FormData(this);
 
 		}else{
-			var data = new FormData();
+			var data = new FormData(this);
 			
 			data.append('file', _file.files[0]);
 			var file = _file.files[0];	
 		}
-        $formdata.push({
-            name: "csrf_cookie_name",
-            value: csrftoken
-        });
+  
         $.ajax({
             type: "POST",
-            url: "<?php echo base_url(); ?>" + "index.php/admin/registermember",
-            data: $formdata,
+            url: "<?php echo base_url(); ?>" + "index.php/admin/registermember"+ "?csrf_cookie_name=" +  csrftoken,
+            data: data,
             beforeSend: function(xhr, settings) {
                 if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
                     xhr.setRequestHeader("X-CSRFToken", csrftoken);
@@ -159,6 +156,8 @@
       			
             },
             cache: false,
+			  contentType: false,
+                processData: false,
             success: function(data) {
 			$.blockUI();
 		   if(data=='1'){

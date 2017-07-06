@@ -42,7 +42,7 @@
                                                 <a href="#">
                                                     <span class="profile-edit">Edit</span>
                                                 </a>
-                                                <img class="img-responsive img-profile" src="<?php echo base_url();?>images/<?php echo $_SESSION['photo'];?>" alt="">
+                                                <img class="img-responsive img-profile" src="<?php echo base_url();?>images/<?php echo $photo;?>" alt="">
                                                 <div class="list-group">
                                                     <a href="#" class="list-group-item active">Overview</a>
                                                     <a href="#" class="list-group-item">Messages<span class="badge green">4</span></a>
@@ -207,7 +207,7 @@
                                                     <div class="tab-pane fade" id="profilePicture">
                                                         <h3>Current Picture:</h3>
 														 <p id='load1'></p>
-                                                        <img class="img-responsive img-profile" src="<?php echo base_url();?>images/<?php echo $_SESSION['photo'];?>" alt="">
+                                                        <img class="img-responsive img-profile" src="<?php echo base_url();?>images/<?php echo $photo;?>" alt="">
                                                         <br>
                                                         <?php echo form_open_multipart('admin/updateMemberPic', 'id="form1"  data-parsley-validate');?>
                                                             <div class="form-group">
@@ -278,7 +278,7 @@
     <!-- Logout Notification Box -->
     <div id="logout">
         <div class="logout-message">
-            <img class="img-circle img-logout" src="<?php echo base_url();?>images/<?php echo $_SESSION['photo'];?>" alt="">
+            <img class="img-circle img-logout" src="<?php echo base_url();?>images/<?php echo $photo;?>" alt="">
             <h3>
                 <i class="fa fa-sign-out text-green"></i> Ready to go?
             </h3>
@@ -425,25 +425,23 @@ return false;
 
  $('#form1').submit(function() {
 	
-        var csrftoken = getCookie('csrf_cookie_name');
+         var csrftoken = getCookie('csrf_cookie_name');
     
-		var formdata = $('#form1').serializeArray();
+		
 		var	_file = document.getElementById('file'); 
 		if(_file.files.length === 0){
-		var data = new FormData();
+		var data = new FormData(this);
 
 		}else{
-			var data = new FormData();
+			var data = new FormData(this);
 			
 			data.append('file', _file.files[0]);
-			data.append('csrf_cookie_name',csrftoken);
 			var file = _file.files[0];	
 		}
-     
-	
-        $.ajax({
+
+		   $.ajax({
             type: "POST",
-            url: "<?php echo base_url(); ?>" + "index.php/admin/updateMemberPic",
+            url: "<?php echo base_url(); ?>" + "index.php/admin/updateMemberPic"+ "?csrf_cookie_name=" +  csrftoken,
             data: data,
             beforeSend: function(xhr, settings) {
                 if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -452,8 +450,8 @@ return false;
       			
             },
             cache: false,
-			processData: false ,
-			contentType: false,
+			  contentType: false,
+                processData: false,
             success: function(data) {
 			$.blockUI();
 		   if(data=='1'){
