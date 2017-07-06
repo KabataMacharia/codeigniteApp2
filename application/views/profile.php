@@ -331,7 +331,7 @@
         // these HTTP methods do not require CSRF protection
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
     } 
-$('#submit').click(function() {
+			$('#submit').click(function() {
 			var csrftoken = getCookie('csrf_cookie_name');
 			
 				var $formdata = $('.form').serializeArray();
