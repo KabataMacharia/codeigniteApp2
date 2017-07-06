@@ -20,14 +20,24 @@ class Admin extends CI_Controller {
 			else
 			{
 		    $result=  $this->Admin_model->getUser();
+			$userrole= $result->userrole;
 			$data['fname'] = $result->fname;
 			$data['lname'] = $result->lname;
 			$data['email'] = $result->email;
 			$data['address'] = $result->address;
 			$data['phone'] = $result->phone;
 			$data['photo'] = $result->photo;
-		    $this->load->view('table_header',$data);
-		    $this->load->view('profile',$data);
+			if($result=='admin')
+			{
+			 $this->load->view('table_header',$data);
+		    $this->load->view('profile',$data);	
+			}
+			else
+			{
+			$this->load->view('member_header',$data);
+		    $this->load->view('profile',$data);		
+			}
+		  
 			}
 		}
 		public function registration()
@@ -60,14 +70,37 @@ class Admin extends CI_Controller {
 				}
 			
 		}
-		public function users()
+		public function inactivemembers()
 		{
 		 $result=  $this->Admin_model->getUser();
 		 $data['photo'] = $result->photo;
 		 if(isset($_SESSION['userid']) && $_SESSION['userrole']=='admin')
 		 {
-		$members=  $this->Admin_model->getRegisteredMembers();
+		$members=  $this->Admin_model->getInactiveMembers();
+		if($members!="")
+		{
 		$data['members'] = $members;
+		}else{
+		 $data['members'] = "";
+		}
+	    $this->load->view('table_header',$data);
+		$this->load->view('inactivemembers_view',$data);
+	    $this->load->view('table_footer');
+		 }
+		}
+		public function activemembers()
+		{
+		 $result=  $this->Admin_model->getUser();
+		 $data['photo'] = $result->photo;
+		 if(isset($_SESSION['userid']) && $_SESSION['userrole']=='admin')
+		 {
+		$members=  $this->Admin_model->getActiveMembers();
+		if($members!="")
+		{
+		$data['members'] = $members;
+		}else{
+		 $data['members'] = "";
+		}
 	    $this->load->view('table_header',$data);
 		$this->load->view('members_view',$data);
 	    $this->load->view('table_footer');
@@ -132,6 +165,7 @@ class Admin extends CI_Controller {
 		{
 		$id = $this->input->post('id');
 		$this->Admin_model->activateMember($id);
+	
 		}
 	    public function deactivateMember()
 		{

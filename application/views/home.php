@@ -159,7 +159,7 @@
 									 <div class="portlet portlet-default">
 									   <div class="portlet-heading">
                                 <div class="portlet-title">
-                                    <h4>Registered Users</h4>
+                                    <h4>Inactive Members</h4>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>

@@ -576,13 +576,13 @@
                         </a>
                         <ul class="collapse nav" id="charts">
                             <li>
-                                <a href="<?php echo base_url(); ?>index.php/admin/users">
-                                    <i class="fa fa-angle-double-right"></i> Members
+                                <a href="<?php echo base_url(); ?>index.php/admin/inactivemembers">
+                                    <i class="fa fa-angle-double-right"></i> Inactive Members
                                 </a>
                             </li>
                             <li>
-                                <a href="morris.html">
-                                    <i class="fa fa-angle-double-right"></i>others
+                                <a href="<?php echo base_url(); ?>index.php/admin/activemembers">
+                                    <i class="fa fa-angle-double-right"></i>Active Members
                                 </a>
                             </li>
                         </ul>

@@ -283,11 +283,12 @@ class Admin_model extends CI_Model {
 			return false;
 			} 
 		 }	
-         public function getRegisteredMembers()
+         public function getInactiveMembers()
 		 {
 			 
 			 $this->db->where('userrole','member');
 			 $this->db->where('deleted','N');
+			 $this->db->where('active','N');
 			 $query = $this->db->get('member');
 			if($query->num_rows()>0)
 			{
@@ -298,6 +299,22 @@ class Admin_model extends CI_Model {
 			return false;
 			} 
 		 }	
+		      public function getActiveMembers()
+		 {
+			 
+			 $this->db->where('userrole','member');
+			 $this->db->where('deleted','N');
+			 $this->db->where('active','Y');
+			 $query = $this->db->get('member');
+			if($query->num_rows()>0)
+			{
+			return $query->result();
+					
+			}else
+			{
+			return false;
+			} 
+		 }
       public function getMembersNo()
 		 {
 			 
@@ -396,6 +413,9 @@ class Admin_model extends CI_Model {
 				$this->db->set('active', 'Y');
 				$this->db->where('member_no',$memberno);
 				$this->db->update('member');
+				$this->db->set('active', 'Y');
+				$this->db->where('userid',$memberno);
+				$this->db->update('login');
 				if($this->db->affected_rows() > 0)
 				{
 			   echo "<font color='blue' size='3px'>Member successfully activated</font>";		
@@ -411,6 +431,9 @@ class Admin_model extends CI_Model {
 				$this->db->set('active', 'N');
 				$this->db->where('member_no',$memberno);
 				$this->db->update('member');
+				$this->db->set('active', 'Y');
+				$this->db->where('userid',$memberno);
+				$this->db->update('login');
 				if($this->db->affected_rows() > 0)
 				{
 			   echo "<font color='blue' size='3px'>Member successfully deactivated</font>";		

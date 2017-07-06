@@ -31,7 +31,7 @@
                         <div class="portlet portlet-default">
                             <div class="portlet-heading">
                                 <div class="portlet-title">
-                                    <h4>Active Users</h4>
+                                    <h4>Inactive Users</h4>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -40,7 +40,7 @@
 							<div hidden class="alert alert-danger" id='load2'>
 							</div>
                                 <div class="table-responsive">
-								 <?php echo form_open('admin/deactivateMember', 'id="form"  data-parsley-validate');?>
+								 <?php echo form_open('admin/activateMember', 'id="form"  data-parsley-validate');?>
                                     <table id="example2" class="table table-striped table-bordered table-hover table-green">
                                         <thead>
                                             <tr>
@@ -48,15 +48,18 @@
                                                 <th>Email</th>
                                                 <th>Address</th>
 												<th>Telephone No</th>
-												<th>Deactivate</th>
+												<th>Activate</th>
+												
                                             </tr>
                                         </thead>
                                         <tbody id="view">
 											
 
 									<?php
-								if($members!="")
-								{
+									if($members!="")
+									{
+								$data['members'] = $members;
+		
 								foreach($members as $result)
 							
 									{
@@ -79,7 +82,8 @@
 						<td><?php echo $result->address; ?></td>
 						<td><?php echo $result->phone; ?></td>
 						<td><?php $id=$result->member_no;?>
-						<a  href="#" onclick="deactivate('<?php echo $id; ?>')" style="color:red">Deactivate</a></td>
+						<a href="#" onclick="activate('<?php echo $id;?>')" style="color:red">Activate</a>
+						</td>
 							 
 						</tr>
 						<?php } }?>
@@ -165,13 +169,13 @@
         // these HTTP methods do not require CSRF protection
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
     } 
-  function deactivate(no){
-	 alert(no)
+ function activate(id){
+	 
 	var csrftoken = getCookie('csrf_cookie_name');
 			
 	var formdata = $('#form').serializeArray();
-	formdata.push({name: "no",
-	value: no});	
+	formdata.push({name: "id",
+	value: id});	
 	formdata.push({
 	name: "csrf_cookie_name",
 	value: csrftoken
@@ -179,10 +183,10 @@
    $.blockUI({ message: $('#question'), css: { width: '300px' } }); 
  $('#yes').click(function() { 
             // update the block message 
-            $.blockUI({ message: "<h3><font color='red'>Deactivating...</h3></font>" }); 
+            $.blockUI({ message: "<h3><font color='red'>Activating...</h3></font>" }); 
  			$.ajax({
             type: "POST",
-            url: "<?php echo base_url(); ?>" + "index.php/admin/deactivateMember",
+            url: "<?php echo base_url(); ?>" + "index.php/admin/activateMember",
             data: formdata,
             beforeSend: function(xhr, settings) {
                 if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -192,10 +196,11 @@
             },
             cache: false,
             success: function(data) {
-				
+			
 			$.blockUI();
 		   if(data=='1'){
-			
+			   
+			 window.location.href = '<?php echo base_url(); ?>index.php/inactivemembers' 
 			}
 			else{
 			$("#load2").html(data).show();
@@ -217,4 +222,5 @@
         }); 
 
  }
+
  </script> 
