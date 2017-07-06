@@ -576,13 +576,13 @@
                         </a>
                         <ul class="collapse nav" id="charts">
                             <li>
-                                <a href="flot.html">
-                                    <i class="fa fa-angle-double-right"></i> Activate Members
+                                <a href="<?php echo base_url(); ?>index.php/admin/users">
+                                    <i class="fa fa-angle-double-right"></i> Members
                                 </a>
                             </li>
                             <li>
                                 <a href="morris.html">
-                                    <i class="fa fa-angle-double-right"></i>Deactivate Members
+                                    <i class="fa fa-angle-double-right"></i>others
                                 </a>
                             </li>
                         </ul>

@@ -46,7 +46,7 @@ class Admin_model extends CI_Model {
 			return $memberno;
 			}
 
-				public function verify_user($email, $password){
+				public function verify_user($email,$password){
 				$this->db->where('email',$email);
 				$this->db->where('deleted','N');
 				$this->db->where('active','Y');
@@ -288,7 +288,6 @@ class Admin_model extends CI_Model {
 			 
 			 $this->db->where('userrole','member');
 			 $this->db->where('deleted','N');
-			 $this->db->where('active','N');
 			 $query = $this->db->get('member');
 			if($query->num_rows()>0)
 			{
@@ -298,7 +297,16 @@ class Admin_model extends CI_Model {
 			{
 			return false;
 			} 
-		 }		 
+		 }	
+      public function getMembersNo()
+		 {
+			 
+			 $this->db->where('userrole','member');
+			 $this->db->where('deleted','N');
+			 $query = $this->db->get('member');
+			 return $query->num_rows();
+			 
+		 }			 
       public function uploadProfilePic()
 	  {
 			if(!isset($_FILES['file']))
@@ -383,5 +391,35 @@ class Admin_model extends CI_Model {
 			}
 	
 		 }	
+		 public function activateMember($memberno)
+		 {
+				$this->db->set('active', 'Y');
+				$this->db->where('member_no',$memberno);
+				$this->db->update('member');
+				if($this->db->affected_rows() > 0)
+				{
+			   echo "<font color='blue' size='3px'>Member successfully activated</font>";		
+				}
+				else
+				{
+				echo "<font color='red' size='3px'>Member not activated</font>";					
+				} 
+              
+        }
+			 public function deactivateMember($memberno)
+		 {
+				$this->db->set('active', 'N');
+				$this->db->where('member_no',$memberno);
+				$this->db->update('member');
+				if($this->db->affected_rows() > 0)
+				{
+			   echo "<font color='blue' size='3px'>Member successfully deactivated</font>";		
+				}
+				else
+				{
+				echo "<font color='red' size='3px'>Member not deactivated</font>";					
+				} 
+              
+        }
 }
 ?>

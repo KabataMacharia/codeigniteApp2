@@ -450,8 +450,8 @@ return false;
       			
             },
             cache: false,
-			  contentType: false,
-                processData: false,
+			 contentType: false,
+             processData: false,
             success: function(data) {
 			$.blockUI();
 		   if(data=='1'){

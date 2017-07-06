@@ -18,6 +18,10 @@ class Welcome extends CI_Controller {
 		 $data['photo'] = $result->photo;
 		 if(isset($_SESSION['userid']) && $_SESSION['userrole']=='admin')
 		 {
+		 $members=  $this->Admin_model->getRegisteredMembers();
+		 $membersNo=  $this->Admin_model->getMembersNo();
+		 $data['members'] = $members;
+		 $data['membersNo'] = $membersNo;
 	     $this->load->view('table_header',$data);
 		 $this->load->view('home',$data);
 	     $this->load->view('table_footer');

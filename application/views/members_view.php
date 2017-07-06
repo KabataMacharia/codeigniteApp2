@@ -31,12 +31,16 @@
                         <div class="portlet portlet-default">
                             <div class="portlet-heading">
                                 <div class="portlet-title">
-                                    <h4>Activate Users</h4>
+                                    <h4>Registered Users</h4>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="portlet-body">
+							<div class="form-group">
+							<div hidden class="alert alert-danger" id='load2'>
+							</div>
                                 <div class="table-responsive">
+								 <?php echo form_open('admin/activateMember', 'id="form"  data-parsley-validate');?>
                                     <table id="example2" class="table table-striped table-bordered table-hover table-green">
                                         <thead>
                                             <tr>
@@ -44,8 +48,8 @@
                                                 <th>Email</th>
                                                 <th>Address</th>
 												<th>Telephone No</th>
-												<th>Edit</th>
-												<th>Delete</th>
+												<th>Activate</th>
+												<th>Deactivate</th>
                                             </tr>
                                         </thead>
                                         <tbody id="view">
@@ -74,19 +78,28 @@
 						<td><?php echo $result->address; ?></td>
 						<td><?php echo $result->phone; ?></td>
 						<td><?php $id=$result->member_no;?>
-						<a href="<?php echo base_url("membereditview?id=$id") ; ?>" class="edit" onclick="editrecord('<?php echo $id;?>')" style="color:blue"> Edit</a></td>
-						 <td><?php $id=$result->member_no;?>
-							<a  href="#" class="delete" onclick="deleterecord('<?php echo $id; ?>')" style="color:red">Delete</a></td>
-								
+						<a href="#" onclick="activate('<?php echo $id;?>')" style="color:blue">Inactive</a>
+		
+						</td>
+	
+						 <td ><?php $id=$result->member_no;?>
+						<a  href="#" onclick="deactivate('<?php echo $id; ?>')" style="color:red">Active</a></td>
+							 
 						</tr>
 						<?php } ?>
                                             
                                         </tbody>
                                     </table>
+									</form>
                                 </div>
                                 <!-- /.table-responsive -->
                             </div>
                             <!-- /.portlet-body -->
+																								<div id="question" style="display:none; cursor: default"> 
+							<h4>Are you sure you want to continue?</h4> 
+							<input type="button" id="yes" value="Yes" /> 
+							<input type="button" id="no" value="No" /> 
+							 </div>
                         </div>
                         <!-- /.portlet -->
 
@@ -112,10 +125,12 @@
     <script src="<?php echo base_url();?>resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="<?php echo base_url();?>resources/js/plugins/popupoverlay/jquery.popupoverlay.js"></script>
     <script src="<?php echo base_url();?>resources/js/plugins/popupoverlay/defaults.js"></script>
+				<script src="<?php echo base_url();?>resources/js/blockUI.js" type="text/javascript" charset="utf-8"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.7.2/parsley.min.js"></script>
     <!-- Logout Notification Box -->
     <div id="logout">
         <div class="logout-message">
-            <img class="img-circle img-logout" src="img/profile-pic.jpg" alt="">
+            <img class="img-circle img-logout" src="<?php echo base_url();?>images/<?php echo $photo;?>" alt="">
             <h3>
                 <i class="fa fa-sign-out text-green"></i> Ready to go?
             </h3>
@@ -133,3 +148,129 @@
         </div>
     </div>
     <!-- /#logout -->
+<script type="text/javascript">
+	function getCookie(name) {
+    	var cookieValue = null;
+    	if (document.cookie && document.cookie !== '') {
+    		var cookies = document.cookie.split(';');
+    		for (var i = 0; i < cookies.length; i++) {
+    			var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                	cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                	break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    } 
+ function activate(id){
+	 
+	var csrftoken = getCookie('csrf_cookie_name');
+			
+	var formdata = $('#form').serializeArray();
+	formdata.push({name: "id",
+	value: id});	
+	formdata.push({
+	name: "csrf_cookie_name",
+	value: csrftoken
+	});
+   $.blockUI({ message: $('#question'), css: { width: '300px' } }); 
+ $('#yes').click(function() { 
+            // update the block message 
+            $.blockUI({ message: "<h3><font color='red'>Activating...</h3></font>" }); 
+ 			$.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "index.php/admin/activateMember",
+            data: formdata,
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+      			
+            },
+            cache: false,
+            success: function(data) {
+				
+			$.blockUI();
+		   if(data=='1'){
+			
+			}
+			else{
+			$("#load2").html(data).show();
+			}
+			setTimeout($.unblockUI, 2000);
+						
+
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) { // on error..
+						
+						
+					}
+				});
+    
+        }); 
+		   $('#no').click(function() { 
+            $.unblockUI(); 
+            return false; 
+        }); 
+
+ }
+  function deactivate(no){
+	 alert(no)
+	var csrftoken = getCookie('csrf_cookie_name');
+			
+	var formdata = $('#form').serializeArray();
+	formdata.push({name: "no",
+	value: no});	
+	formdata.push({
+	name: "csrf_cookie_name",
+	value: csrftoken
+	});
+   $.blockUI({ message: $('#question'), css: { width: '300px' } }); 
+ $('#yes').click(function() { 
+            // update the block message 
+            $.blockUI({ message: "<h3><font color='red'>Deactivating...</h3></font>" }); 
+ 			$.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "index.php/admin/deactivateMember",
+            data: formdata,
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+      			
+            },
+            cache: false,
+            success: function(data) {
+				
+			$.blockUI();
+		   if(data=='1'){
+			
+			}
+			else{
+			$("#load2").html(data).show();
+			}
+			setTimeout($.unblockUI, 2000);
+						
+
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) { // on error..
+						
+						
+					}
+				});
+    
+        }); 
+		   $('#no').click(function() { 
+            $.unblockUI(); 
+            return false; 
+        }); 
+
+ }
+ </script> 

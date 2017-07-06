@@ -128,5 +128,15 @@ class Admin extends CI_Controller {
 		 {
 			$this->Admin_model->recoverPassword(); 
 		 }
+		 public function activateMember()
+		{
+		$id = $this->input->post('id');
+		$this->Admin_model->activateMember($id);
+		}
+	    public function deactivateMember()
+		{
+		$id = $this->input->post('no');
+		$this->Admin_model->deactivateMember($id);
+		}
 }
 ?>
