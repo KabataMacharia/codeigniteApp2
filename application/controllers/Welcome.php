@@ -20,10 +20,10 @@ class Welcome extends CI_Controller {
 		 {
 	     $this->load->view('table_header',$data);
 		 $this->load->view('home',$data);
-	
+	     $this->load->view('table_footer');
 		 }else
 		 {
-		 $this->load->view('table_header',$data);
+		 $this->load->view('member_header',$data);
 		 $this->load->view('memberpage');
 		
 		 }

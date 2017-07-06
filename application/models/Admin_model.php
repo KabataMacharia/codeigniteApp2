@@ -49,6 +49,7 @@ class Admin_model extends CI_Model {
 				public function verify_user($email, $password){
 				$this->db->where('email',$email);
 				$this->db->where('deleted','N');
+				$this->db->where('active','Y');
 				$this->db->where('password',sha1($password));
 				$query = $this->db->get('login');
 				if($query->num_rows()>0)
@@ -95,6 +96,7 @@ class Admin_model extends CI_Model {
 				'address' =>trim($this->input->post('address')),
 				'phone' =>trim($this->input->post('phone')),
 				'deleted' =>'N',
+				'userrole' => 'member',
 				'active' =>'N',
 				'photo'=>$file
 				);	
@@ -280,7 +282,23 @@ class Admin_model extends CI_Model {
 			{
 			return false;
 			} 
-		 }		
+		 }	
+         public function getRegisteredMembers()
+		 {
+			 
+			 $this->db->where('userrole','member');
+			 $this->db->where('deleted','N');
+			 $this->db->where('active','N');
+			 $query = $this->db->get('member');
+			if($query->num_rows()>0)
+			{
+			return $query->result();
+					
+			}else
+			{
+			return false;
+			} 
+		 }		 
       public function uploadProfilePic()
 	  {
 			if(!isset($_FILES['file']))

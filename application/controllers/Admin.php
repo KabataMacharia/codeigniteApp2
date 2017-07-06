@@ -45,7 +45,6 @@ class Admin extends CI_Controller {
 			$email= $this->input->post('email_address');
 		    $password= $this->input->post('password');
             $result=  $this->Admin_model->verify_user($email, $password);
-			
 		      if($result!==false)
 			    {
 				$_SESSION['username']=$result->username;
@@ -60,6 +59,19 @@ class Admin extends CI_Controller {
 				echo "<font color='red' size='3px'>Your email or password is incorrect!!!</font>";
 				}
 			
+		}
+		public function users()
+		{
+		 $result=  $this->Admin_model->getUser();
+		 $data['photo'] = $result->photo;
+		 if(isset($_SESSION['userid']) && $_SESSION['userrole']=='admin')
+		 {
+		$members=  $this->Admin_model->getRegisteredMembers();
+		$data['members'] = $members;
+	    $this->load->view('table_header',$data);
+		$this->load->view('members_view',$data);
+	    $this->load->view('table_footer');
+		 }
 		}
 		public function registermember()
 		{

@@ -151,6 +151,7 @@
             },
             cache: false,
             success: function(data) {
+			
 			$.blockUI();
 		   if(data=='1'){
 			 
