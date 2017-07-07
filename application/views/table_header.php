@@ -585,6 +585,11 @@
                                     <i class="fa fa-angle-double-right"></i>Active Members
                                 </a>
                             </li>
+							 <li>
+                                <a href="<?php echo base_url(); ?>index.php/admin/country">
+                                    <i class="fa fa-angle-double-right"></i>Countries
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <!-- end SETTING DROPDOWN -->

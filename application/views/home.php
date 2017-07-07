@@ -574,27 +574,7 @@
     <script src="<?php echo base_url();?>resources/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
     <script src="<?php echo base_url();?>resources/js/plugins/popupoverlay/jquery.popupoverlay.js"></script>
     <script src="<?php echo base_url();?>resources/js/plugins/popupoverlay/defaults.js"></script>
-    <!-- Logout Notification Box -->
-    <div id="logout">
-        <div class="logout-message">
-            <img class="img-circle img-logout" src="<?php echo base_url();?>images/<?php if (isset($_SESSION['userid'])){echo  $photo;}else{ echo "profile.jpg";}?>" alt="">
-            <h3>
-                <i class="fa fa-sign-out text-green"></i> Ready to go?
-            </h3>
-            <p>Select "Logout" below if you are ready<br> to end your current session.</p>
-            <ul class="list-inline">
-                <li>
-                    <a href="<?php echo base_url();?>index.php/admin/logout" class="btn btn-green">
-                        <strong>Logout</strong>
-                    </a>
-                </li>
-                <li>
-                    <button class="logout_close btn btn-green">Cancel</button>
-                </li>
-            </ul>
-        </div>
-    </div>
-     <!-- /#logout -->
+   
 	 				<script src="<?php echo base_url();?>resources/js/blockUI.js" type="text/javascript" charset="utf-8"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.7.2/parsley.min.js"></script>
 <script type="text/javascript">

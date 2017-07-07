@@ -65,6 +65,7 @@ class Admin extends CI_Controller {
 				echo '1';
 				}	
 		}
+		
 		public function inactivemembers()
 		{
 		 $result=  $this->Admin_model->getUser();
@@ -81,6 +82,25 @@ class Admin extends CI_Controller {
 	    $this->load->view('table_header',$data);
 		$this->load->view('inactivemembers_view',$data);
 	    $this->load->view('table_footer');
+		 }
+		}
+
+		public function country()
+		{
+			if(isset($_SESSION['userid']) && $_SESSION['userrole']=='admin')
+		 {
+		$result=  $this->Admin_model->getUser();
+		$data['photo'] = $result->photo;
+		$countries=  $this->Admin_model->getCountries();
+		if($countries!="")
+		{
+		$data['countries'] = $countries;
+		}else{
+		 $data['countries'] = "";
+		}
+		$this->load->view('table_header',$data);
+		$this->load->view('country_view',$data);
+	    $this->load->view('table_footer');	
 		 }
 		}
 		public function activemembers()
@@ -104,6 +124,10 @@ class Admin extends CI_Controller {
 		public function registermember()
 		{
 	    $this->Admin_model->checkEmail();
+		}
+		public function addcountry()
+		{
+	    $this->Admin_model->addcountry();
 		}
 		public function deleteMember()
 		{

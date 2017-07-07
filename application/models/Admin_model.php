@@ -91,6 +91,27 @@ class Admin_model extends CI_Model {
 
 
 				}
+				
+				public function addcountry()
+		{     
+	
+				$data = array(
+				'name' =>trim($this->input->post('name')),
+			    'code' =>trim($this->input->post('code')),
+				'deleted' =>'N'
+				);	
+				$this->db->insert('country', $data);
+			
+				if($this->db->affected_rows() > 0)
+				{
+                echo '1';
+		
+				}
+				else
+				{
+				echo "Country not added.";					
+				}					
+		}	
 	public function saveMember()
 		{     
 	
@@ -316,6 +337,19 @@ class Admin_model extends CI_Model {
 			return false;
 			} 
 		 }	
+	   public function getCountries()
+		 {
+			 $this->db->where('deleted','N');
+			 $query = $this->db->get('country');
+			if($query->num_rows()>0)
+			{
+			return $query->result();
+					
+			}else
+			{
+			return false;
+			} 
+		 }
 		      public function getActiveMembers()
 		 {
 			 
