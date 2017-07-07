@@ -166,7 +166,7 @@
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
     } 
   function deactivate(no){
-	if ( $(this).parsley().isValid() ) {
+
 	var csrftoken = getCookie('csrf_cookie_name');
 			
 	var formdata = $('#form').serializeArray();
@@ -215,6 +215,6 @@
             $.unblockUI(); 
             return false; 
         }); 
-	}
+	
  }
  </script> 

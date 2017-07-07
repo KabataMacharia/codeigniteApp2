@@ -95,7 +95,7 @@
                                 <!-- /.table-responsive -->
                             </div>
                             <!-- /.portlet-body -->
-																								<div id="question" style="display:none; cursor: default"> 
+							<div id="question" style="display:none; cursor: default"> 
 							<h4>Are you sure you want to continue?</h4> 
 							<input type="button" id="yes" value="Yes" /> 
 							<input type="button" id="no" value="No" /> 
@@ -170,7 +170,6 @@
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
     } 
  function activate(id){
-	 if ( $(this).parsley().isValid() ) {
 	var csrftoken = getCookie('csrf_cookie_name');
 			
 	var formdata = $('#form').serializeArray();
@@ -220,7 +219,7 @@
             $.unblockUI(); 
             return false; 
         }); 
-	 }
+	 
  }
 
  </script> 

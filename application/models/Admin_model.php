@@ -446,7 +446,7 @@ class Admin_model extends CI_Model {
 				$this->db->set('active', 'N');
 				$this->db->where('member_no',$memberno);
 				$this->db->update('member');
-				$this->db->set('active', 'Y');
+				$this->db->set('active', 'N');
 				$this->db->where('userid',$memberno);
 				$this->db->update('login');
 				if($this->db->affected_rows() > 0)

@@ -13,8 +13,8 @@
     <title>Login Application</title>
 
     <!-- PACE LOAD BAR PLUGIN - This creates the subtle load bar effect at the top of the page. -->
-    <link href="css/plugins/pace/pace.css" rel="stylesheet">
-    <script src="js/plugins/pace/pace.js"></script>
+    <link href="<?php echo base_url();?>resources/css/plugins/pace/pace.css" rel="stylesheet">
+    <script src="<?php echo base_url();?>resources/js/plugins/pace/pace.js"></script>
 
     <!-- GLOBAL STYLES - Include these on every page. -->
     <link href="<?php echo base_url();?>resources/css/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
