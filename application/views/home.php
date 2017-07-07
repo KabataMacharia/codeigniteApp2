@@ -301,9 +301,11 @@
 										
                                         <div class="table-responsive">
 					
-              				 <?php echo form_open('admin/activateMember', 'id="formttt"  data-parsley-validate');?>
-                                    		<div hidden class="alert alert-danger" id='load2'>
-							</div>
+              				 <?php echo form_open('admin/activateMember', 'id="form"  data-parsley-validate');?>
+                                  	 <div hidden class="alert alert-success" id='load'>
+						     </div>
+							  <div hidden class="alert alert-danger" id='load1'>
+						     </div>
 									<table id="example2" class="table table-striped table-bordered table-hover table-green" >
                                         <thead>
                                             <tr>
@@ -621,7 +623,7 @@
 	// if ( $(this).parsley().isValid() ) {
 	var csrftoken = getCookie('csrf_cookie_name');
 			
-	var formdata = $('#formttt').serializeArray();
+	var formdata = $('#form').serializeArray();
 	
 	formdata.push({name: "id",
 	value: id});	
@@ -650,11 +652,12 @@
 			
 			$.blockUI();
 		   if(data=='1'){
-			   
-			 window.location.href = '<?php echo base_url(); ?>index.php/inactivemembers' 
+			 $("#load").html("Member successfully activated").show();
+			$("#load1").html(data).hide();
 			}
 			else{
-			$("#load2").html(data).show();
+			$("#load").html(data).hide();
+			$("#load1").html(data).show();
 			}
 			setTimeout($.unblockUI, 2000);
 						

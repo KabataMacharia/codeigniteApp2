@@ -55,19 +55,21 @@
                             <?php echo form_open_multipart('admin/registermember', 'class="form"  data-parsley-validate');?>
 							
                             <fieldset>
-							 <div hidden class="alert alert-danger" id='load'>
+							 <div hidden class="alert alert-success" id='load'>
+						     </div>
+							  <div hidden class="alert alert-danger" id='load1'>
 						     </div>
                                 <div class="form-group">
-								 <input type="text" name="fname" id="fname" required class="form-control" placeholder="First Name ">
+								 <input type="text" name="fname" id="fname" required data-parsley-error-message="<font color='red'>Please enter your First Name</font>" class="form-control" placeholder="First Name ">
                                 </div>
                                 <div class="form-group">
-								<input type="text" name="lname" id="lname" required class="form-control" placeholder="Last Name ">
+								<input type="text" name="lname" id="lname" required data-parsley-error-message="<font color='red'>Please enter your Last Name</font>" class="form-control" placeholder="Last Name ">
                                 </div>
 								<div class="form-group">
-								<input type="text" name="email" id="email" required data-parsley-type="email" class="form-control" placeholder="Email">
+								<input type="text" name="email" id="email" required data-parsley-type="email" data-parsley-error-message="<font color='red'>Please enter a valid Email</font>" class="form-control" placeholder="Email">
                                 </div>
                                 <div class="form-group">
-								<input type="text" name="address" id="address" required class="form-control" placeholder="Address">
+								<input type="text" name="address" id="address" required data-parsley-error-message="<font color='red'>Please enter your Address</font>" class="form-control" placeholder="Address">
                                 </div>
 								
 							     <div class="form-group">
@@ -76,18 +78,18 @@
 								 <div class="form-group">
 
 								 <input type="text" name="code" id="code" value="254"   align ="left" size="3" readonly>
-								<input type="text" name="phone" id="phone"  size="37" data-parsley-type="integer" data-parsley-length="[6, 10]" data-parsley-error-message="Telephone No must be 9 characters long without special characters using the format provided" parsley-rangelength-message="Telephone no should be exactly 9 characters long" required placeholder="707963603">
+								<input type="text" name="phone" id="phone"  size="37" data-parsley-type="integer" data-parsley-length="[9, 9]" data-parsley-error-message="<font color='red'>Telephone No must be 9 characters long without special characters using the format provided</font>" parsley-rangelength-message="Telephone no should be exactly 9 characters long" required placeholder="707963603">
                                 </div>
 						
 							     <div class="form-group">
-								<input type="password" name="password" id="password" required class="form-control" placeholder="Password">
+								<input type="password" name="password" id="password" data-parsley-error-message="<font color='red'>Please enter password</font>" required class="form-control" placeholder="Password">
                                 </div>
 								<div class="form-group">
-								<input type="password" name="cpassword" id="cpassword" required data-parsley-equalto="#password" class="form-control" placeholder="Confirm Password">
+								<input type="password" name="cpassword" id="cpassword" required data-parsley-equalto="#password" data-parsley-error-message="<font color='red'>Please confirm the password</font>" class="form-control" placeholder="Confirm Password">
                                 </div><br>
 								<div class="form-group">
 								<label>Upload Profile Pic</label>
-								<input type="file" name="file" required id="file" class="">
+								<input type="file" name="file" required data-parsley-error-message="<font color='red'>Please upload a photo</font>" id="file" class="">
                                 </div>
                                 <br>
                              <button type="submit" id="submit"  class="btn btn-success btn-block btn-flat">Register</button>
@@ -138,21 +140,21 @@
     }     
 	
 	$('.form').submit(function(e) {
-		
+		if ( $(this).parsley().isValid() ) {
         
         var csrftoken = getCookie('csrf_cookie_name');
     
 		
 		var	_file = document.getElementById('file'); 
 		if(_file.files.length === 0){
-			if ( $(this).parsley().isValid() ) {
+			
 		var data = new FormData(this);
-			}
+			//}
 
 		}else{
-			if ( $(this).parsley().isValid() ) {
+			//if ( $(this).parsley().isValid() ) {
 			var data = new FormData(this);
-			}
+			//}
 			data.append('file', _file.files[0]);
 			var file = _file.files[0];	
 		}
@@ -172,11 +174,14 @@
                 processData: false,
             success: function(data) {
 			$.blockUI();
-		   if(data=='1'){
 			
+		   if(data=='1'){
+			$("#load").html("You have registered successfully.Click Login.").show();
+			$("#load1").html(data).hide();
 			}
 			else{
-			$("#load").html(data).show();
+			$("#load").html(data).hide();
+			$("#load1").html(data).show();
 			}
 			setTimeout($.unblockUI, 2000);
 						
@@ -187,7 +192,7 @@
 						
 					}
 				});
-				
+	}
  e.preventDefault();
 });
 </script> 

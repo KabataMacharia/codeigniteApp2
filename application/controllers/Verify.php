@@ -30,7 +30,7 @@ class Verify extends CI_Controller {
 			}
 			else 
 			{
-			echo "<font color='red'>Please enter the correct code.</font>";
+			echo "Please enter the correct code";
 			}
 	}
 		public function logout(){

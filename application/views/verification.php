@@ -54,12 +54,13 @@
                     <div class="portlet-body">
                         <?php echo form_open('verify/verifycode', 'class="form"  data-parsley-validate');?>
                             <fieldset>
-						 <div hidden class="alert alert-danger" id='load'>
-						  
-						</div>
+						     <div hidden class="alert alert-success" id='load'>
+						     </div>
+							  <div hidden class="alert alert-danger" id='load1'>
+						     </div>
                                 <div class="form-group">
                  
-								 <input type="text" name="code" id="code" required class="form-control" placeholder="Enter code">
+								 <input type="text" name="code" id="code" required class="form-control" data-parsley-error-message="<font color='red'>Please enter the verification code</font>" placeholder="Enter code">
                                 </div>
 
                                 <br>
@@ -134,7 +135,8 @@ $('.form').submit(function(e) {
 			window.location.href = '<?php echo base_url(); ?>index.php/welcome' 
 			}
 			else{
-			$("#load").html(data).show();
+			$("#load").html(data).hide();
+			$("#load1").html(data).show();
 			}
 			setTimeout($.unblockUI, 2000);
 						

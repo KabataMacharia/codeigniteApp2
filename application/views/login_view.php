@@ -60,15 +60,16 @@
                          <?php echo form_open('admin/login', 'class="form"  data-parsley-validate');?>
 						
                             <fieldset>
-							 <div hidden class="alert alert-danger" id='load'>
-						  
+							<div hidden class="alert alert-success" id='load'>
+						     </div>
+							  <div hidden class="alert alert-danger" id='load1'>
 						     </div>
                                 <div class="form-group">
                  
-									<input type="text" name="email_address" id="email_address" required data-parsley-type="email" class="form-control" placeholder="Email">
+									<input type="text" name="email_address" id="email_address" data-parsley-error-message="<font color='red'>Please enter a valid Email</font>" required data-parsley-type="email" class="form-control" placeholder="Email">
                                 </div>
                                 <div class="form-group">
-                                                <input type="password" name="password" id="password" required class="form-control" placeholder="Password">
+                                <input type="password" name="password" id="password" required data-parsley-error-message="<font color='red'>Please enter password</font>" class="form-control" placeholder="Password">
                                 </div>
                                 <div class="checkbox">
                                     <label>
@@ -150,12 +151,13 @@
             success: function(data) {
 			
 			$.blockUI();
-		   if(data=='1'){
-			 
+		   if(data=='1')
+		   {
 			window.location.href = '<?php echo base_url(); ?>index.php/verify' 
-			}
+		   }
 			else{
-			$("#load").html(data).show();
+			$("#load").html(data).hide();
+			$("#load1").html(data).show();
 			}
 			setTimeout($.unblockUI, 2000);
 						

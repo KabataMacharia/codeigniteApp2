@@ -37,8 +37,10 @@
                             </div>
                             <div class="portlet-body">
 							<div class="form-group">
-							<div hidden class="alert alert-danger" id='load2'>
-							</div>
+							 <div hidden class="alert alert-success" id='load'>
+						     </div>
+							  <div hidden class="alert alert-danger" id='load1'>
+						     </div>
                                 <div class="table-responsive">
 								 <?php echo form_open('admin/deactivateMember', 'id="form"  data-parsley-validate');?>
                                     <table id="example2" class="table table-striped table-bordered table-hover table-green">
@@ -195,10 +197,12 @@
 				
 			$.blockUI();
 		   if(data=='1'){
-			
+			$("#load").html("Member successfully deactivated").show();
+			$("#load1").html(data).hide();
 			}
 			else{
-			$("#load2").html(data).show();
+			$("#load").html(data).hide();
+			$("#load1").html(data).show();
 			}
 			setTimeout($.unblockUI, 2000);
 						

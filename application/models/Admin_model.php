@@ -65,12 +65,13 @@ class Admin_model extends CI_Model {
 				$this->db->where('active','N');
 				$this->db->where('password',sha1($password));
 				$query = $this->db->get('login');
+				
 				if($query->num_rows()>0)
 				{
-				echo "<font color='red' size='3px'>Sorry,your account is not activated!</font>";
+				echo "Sorry,your account is not activated!";
 				}else
 				{		
-				echo "<font color='red' size='3px'>Your email or password is incorrect!!!</font>";
+				echo "Your email or password is incorrect!!!";
 				return false;
 				}
 				}       
@@ -129,11 +130,12 @@ class Admin_model extends CI_Model {
 				$this->db->insert('login', $logindata); 
 				if($this->db->affected_rows() > 0)
 				{
-			   echo "<font color='blue' size='3px'>You have registered successfully.Click Login!!</font>";		
+                echo '1';
+		
 				}
 				else
 				{
-				echo "<font color='red' size='3px'>You are not registered.</font>";					
+				echo "You are not registered.";					
 				}					
 		}	
 		 public function checkEmail()
@@ -146,7 +148,7 @@ class Admin_model extends CI_Model {
 			{
 			$this->saveMember();
 			}else{
-		    echo "<font color='red' size='3px'>This Email Exists!! Please use another email</font>";
+		    echo "This Email Exists!! Please use another email";
 			}	
 			
 		   } 
@@ -172,11 +174,11 @@ class Admin_model extends CI_Model {
 				$this->db->update('login', $logindata);
 				if($this->db->affected_rows() > 0)
 				{
-			   echo "<font color='blue' size='3px'>Profile successfully edited</font>";		
+			   echo "1";		
 				}
 				else
 				{
-				echo "<font color='red' size='3px'>Profile not edited</font>";					
+				echo "Profile not edited";					
 				}  
 		   }
 		   		  public function updateMemberPic()
@@ -202,11 +204,11 @@ class Admin_model extends CI_Model {
 				
 				if($this->db->affected_rows() > 0)
 				{
-			   echo "<font color='blue' size='3px'>Profile Picture successfully edited</font>";		
+			   echo "1"	;
 				}
 				else
 				{
-				echo "<font color='red' size='3px'>Profile Picture not edited</font>";					
+				echo "Profile Picture not edited";					
 				}  
 		   }
 		   	 public function deleteMember()
@@ -223,11 +225,11 @@ class Admin_model extends CI_Model {
 				
 				if($this->db->affected_rows() > 0)
 				{
-			   echo "<font color='blue' size='3px'>Profile successfully deleted</font>";		
+			   echo "1";		
 				}
 				else
 				{
-				echo "<font color='red' size='3px'>Profile not deleted</font>";					
+				echo "Profile not deleted";					
 				}  
 		   }
           public function forgotPassword()
@@ -248,7 +250,7 @@ class Admin_model extends CI_Model {
 				$this->db->update('login', $data);
 				if($this->db->affected_rows() > 0)
 				{
-			    echo "<font color='blue' size='5'>Password Link is sent to your email</font>";		
+			    echo "<font color='blue' size='5'>Password Link is sent to your email";		
 			   	$config['mailtype'] = 'html';
 				$config['protocol']='smtp';
 				$config['smtp_host']='ssl://smtp.googlemail.com';
@@ -269,7 +271,7 @@ class Admin_model extends CI_Model {
 		 }
 		 else
 		{
-		 echo "<font color='red' size='3px'>The email is not registered in our system</font>";
+		 echo "The email is not registered in our system";
 		}
 		 }		
 		public function retrieve()
@@ -335,6 +337,7 @@ class Admin_model extends CI_Model {
 			 
 			 $this->db->where('userrole','member');
 			 $this->db->where('deleted','N');
+			 $this->db->where('active','Y');
 			 $query = $this->db->get('member');
 			 return $query->num_rows();
 			 
@@ -386,16 +389,16 @@ class Admin_model extends CI_Model {
 				$this->db->update('login', $data);		
 				if($this->db->affected_rows() > 0)
 				{
-			    echo "<font color='blue' size='3px'>Your Password has Changed.</font>";	
+			    echo "1";	
 				}
 				else
 				{
-				echo "<font color='red' size='3px'>Your Password has not Changed</font>";		
+				echo "Your Password has not Changed";		
 				}
 			}
 			else
 			{
-			  echo "<font color='red' size='3px'>The old password is incorrect</font>";
+			  echo "The old password is incorrect";
 			}	
 		 }	
 		     public function recoverPassword()
@@ -414,11 +417,11 @@ class Admin_model extends CI_Model {
 				$this->db->update('login', $data);		
 				if($this->db->affected_rows() > 0)
 				{
-			    echo "<font color='blue' size='3px'>Your Password has Changed.</font>";	
+			    echo "Your Password has Changed.";	
 				}
 				else
 				{
-				echo "<font color='red' size='3px'>Your Password has not Changed</font>";		
+				echo "Your Password has not Changed";		
 				}
 			}
 	
@@ -433,11 +436,11 @@ class Admin_model extends CI_Model {
 				$this->db->update('login');
 				if($this->db->affected_rows() > 0)
 				{
-			   echo "<font color='blue' size='3px'>Member successfully activated</font>";		
+			   echo "1";		
 				}
 				else
 				{
-				echo "<font color='red' size='3px'>Member not activated</font>";					
+				echo "Member not activated";					
 				} 
               
         }
@@ -451,11 +454,12 @@ class Admin_model extends CI_Model {
 				$this->db->update('login');
 				if($this->db->affected_rows() > 0)
 				{
-			   echo "<font color='blue' size='3px'>Member successfully deactivated</font>";		
+				
+			   echo "1";		
 				}
 				else
 				{
-				echo "<font color='red' size='3px'>Member not deactivated</font>";					
+				echo "Member not deactivated";					
 				} 
               
         }

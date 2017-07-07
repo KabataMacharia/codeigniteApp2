@@ -166,32 +166,35 @@
                                                     <div class="tab-pane fade in active" id="basicInformation">
                                                        <?php echo form_open('admin/updateMember', 'class="form"  data-parsley-validate');?>
 													   <div class="form-group">
-													   <div hidden class="alert alert-danger" id='load'>
-														</div>
+													   	 <div hidden class="alert alert-success" id='load'>
+														 </div>
+														  <div hidden class="alert alert-danger" id='load1'>
+														 </div>
 														</div>
                                                             <h4 class="page-header">Personal Information:</h4>
                                                             <div class="form-group">
                                                                 <label>First Name</label>
                                                        
-																<input type="text" name="fname" id="fname" required class="form-control" value="<?php echo $fname; ?>">
+																<input type="text" name="fname" id="fname" required data-parsley-validate-if-empty data-parsley-error-message="<font color='red'>Please enter your First Name</font>" class="form-control" value="<?php echo $fname; ?>">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label>Last Name</label>
-                                                                 <input type="text" name="lname" id="lname" required class="form-control" value="<?php echo $lname; ?>">
+                                                                 <input type="text" name="lname" id="lname" data-parsley-minlength="6" required data-parsley-error-message="<font color='red'>Please enter your Last Name</font>" class="form-control" value="<?php echo $lname; ?>">
                                                             </div>
+														
                                                              <div class="form-group">
                                                                 <label>Telephone No</label>
                                                        
-																<input type="text" name="phone" id="phone" required class="form-control" value="<?php echo $phone; ?>">
+																<input type="text" name="phone" id="phone" required data-parsley-type="integer" data-parsley-length="[6, 13]" data-parsley-error-message="<font color='red'>Telephone No must be 9 characters long without special characters using the format provided</font>" parsley-rangelength-message="Telephone no should be exactly 9 characters long" class="form-control" value="<?php echo $phone; ?>">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label>Address</label>
-                                                                 <input type="text" name="address" id="address" required class="form-control" value="<?php echo $address; ?>">
+                                                                 <input type="text" name="address" id="address" required data-parsley-error-message="<font color='red'>Please enter your Address</font>" class="form-control" value="<?php echo $address; ?>">
                                                             </div>
                                                             <h4 class="page-header">Contact Details:</h4>
                                                             <div class="form-group">
                                                                 <label><i class="fa fa-envelope-o fa-fw"></i> Email Address</label>
-                                                              <input type="text" name="email" id="email" required data-parsley-type="email" class="form-control" value="<?php echo $email; ?>">
+                                                              <input type="text" name="email" id="email" required data-parsley-type="email" data-parsley-error-message="<font color='red'>Please enter a valid Email</font>" class="form-control" class="form-control" value="<?php echo $email; ?>">
                                                             </div>
      
                                         
@@ -206,37 +209,47 @@
                                                     </div>
                                                     <div class="tab-pane fade" id="profilePicture">
                                                         <h3>Current Picture:</h3>
-														 <p id='load1'></p>
+			
                                                         <img class="img-responsive img-profile" src="<?php echo base_url();?>images/<?php echo $photo;?>" alt="">
                                                         <br>
                                                         <?php echo form_open_multipart('admin/updateMemberPic', 'id="form1"  data-parsley-validate');?>
+														 <div class="form-group">
+														 <div hidden class="alert alert-success" id='load20'>
+														 </div>
+														  <div hidden class="alert alert-danger" id='load21'>
+														 </div>
+														 
                                                             <div class="form-group">
                                                                 <label>Choose a New Image</label>
-                                                                <input type="file" name="file" required id="file">
+                                                                <input type="file" name="file" required data-parsley-error-message="<font color='red'>Please upload a photo</font>" id="file">
                                                                 <p class="help-block"><i class="fa fa-warning"></i> Image must be no larger than 500x500 pixels. Supported formats: JPG, GIF, PNG</p>
                                                                 <button type="submit"  class="btn btn-default">Update Profile Picture</button>
                                                                 <button class="btn btn-green">Cancel</button>
+																</div>
                                                             </div>
                                                         </form>
+														
                                                     </div>
                                                     <div class="tab-pane fade in" id="changePassword">
                                                         <h3>Change Password:</h3>
 														
 															 <?php echo form_open('admin/changePassword', 'id="form2"  data-parsley-validate');?>
 														  <div class="form-group">
-														   <div hidden class="alert alert-danger" id='load2'>
-															</div>
+														 <div hidden class="alert alert-success" id='load10'>
+														 </div>
+														  <div hidden class="alert alert-danger" id='load11'>
+														 </div>
 															<div class="form-group">
                                                                 <label>Old Password</label>
-																<input type="password" name="oldpassword" id="oldpassword" required class="form-control">
+																<input type="password" name="oldpassword" id="oldpassword" required data-parsley-error-message="<font color='red'>Please enter your old password</font>"class="form-control">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label>New Password</label>
-                                                              <input type="password" name="newpassword" id="newpassword" required class="form-control">
+                                                              <input type="password" name="newpassword" id="newpassword" required data-parsley-error-message="<font color='red'>Please enter your new password</font>" class="form-control">
                                                             </div>
                                                             <div class="form-group">
                                                                 <label>Re-Type New Password</label>
-                                                               <input type="password" name="retypepassword" id="retypepassword" required data-parsley-equalto="#newpassword" class="form-control">
+                                                               <input type="password" name="retypepassword" id="retypepassword" required data-parsley-equalto="#newpassword" data-parsley-error-message="<font color='red'>Please confirm your new password</font>" class="form-control">
                                                             </div>
                                                             <button type="submit" id="changePass" class="btn btn-default">Update Password</button>
                                                          
@@ -355,10 +368,12 @@
             success: function(data) {
 			$.blockUI();
 		   if(data=='1'){
-			
+			$("#load").html("Profile successfully edited").show();
+			$("#load1").html(data).hide();
 			}
 			else{
-			$("#load").html(data).show();
+			$("#load").html(data).hide();
+			$("#load1").html(data).show();
 			}
 			setTimeout($.unblockUI, 2000);
 						
@@ -401,10 +416,12 @@ $.blockUI({ message: $('#question'), css: { width: '300px' } });
             success: function(data) {
 			$.blockUI();
 		   if(data=='1'){
-			
+			$("#load").html("Profile successfully deleted").show();
+			$("#load1").html(data).hide();
 			}
 			else{
-			$("#load").html(data).show();
+			$("#load").html(data).hide();
+			$("#load1").html(data).show();
 			}
 			setTimeout($.unblockUI, 2000);
 						
@@ -457,10 +474,13 @@ return false;
             success: function(data) {
 			$.blockUI();
 		   if(data=='1'){
-			
+			  
+			$("#load20").html("Profile Picture successfully edited").show();
+			$("#load21").html(data).hide();
 			}
 			else{
-			$("#load1").html(data).show();
+			$("#load20").html(data).hide();
+			$("#load21").html(data).show();
 			}
 			setTimeout($.unblockUI, 2000);
 						
@@ -499,10 +519,13 @@ var $formdata = $('#form2').serializeArray();
             success: function(data) {
 			$.blockUI();
 		   if(data=='1'){
-			//$("#load").html(data).show();
+			
+			$("#load10").html("Your Password has Changed.").show();
+			$("#load11").html(data).hide();
 			}
 			else{
-			$("#load2").html(data).show();
+			$("#load10").html(data).hide();
+			$("#load11").html(data).show();
 			}
 			setTimeout($.unblockUI, 2000);
 						
