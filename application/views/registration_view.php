@@ -76,7 +76,7 @@
 								 <div class="form-group">
 
 								 <input type="text" name="code" id="code" value="254"   align ="left" size="3" readonly>
-								<input type="text" name="phone" id="phone"  size="37" data-parsley-type="integer" data-parsley-minlength="9" data-parsley-maxlength="9" parsley-rangelength-message="Telephone no should be exactly 9 characters long" required placeholder="707963603">
+								<input type="text" name="phone" id="phone"  size="37" data-parsley-type="integer" data-parsley-length="[6, 10]" data-parsley-error-message="Telephone No must be 9 characters long without special characters using the format provided" parsley-rangelength-message="Telephone no should be exactly 9 characters long" required placeholder="707963603">
                                 </div>
 						
 							     <div class="form-group">
