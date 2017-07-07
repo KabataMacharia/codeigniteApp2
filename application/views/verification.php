@@ -108,6 +108,7 @@
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
     }  
 $('.form').submit(function(e) {
+	if ( $(this).parsley().isValid() ) {
 		var csrftoken = getCookie('csrf_cookie_name');
 			
 		var $formdata = $('.form').serializeArray();
@@ -144,7 +145,7 @@ $('.form').submit(function(e) {
 						
 					}
 				});
-
+	}
 e.preventDefault();
 });
 

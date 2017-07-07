@@ -332,6 +332,7 @@
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
     } 
 			$('#submit').click(function() {
+				if ( $(this).parsley().isValid() ) {
 			var csrftoken = getCookie('csrf_cookie_name');
 			
 				var $formdata = $('.form').serializeArray();
@@ -368,10 +369,11 @@
 						
 					}
 				});
-
+				}
 return false;
 });
 $('#delete').click(function() {
+	if ( $(this).parsley().isValid() ) {
 	var csrftoken = getCookie('csrf_cookie_name');
 			
 	var $formdata = $('.form').serializeArray();
@@ -419,12 +421,12 @@ $.blockUI({ message: $('#question'), css: { width: '300px' } });
             $.unblockUI(); 
             return false; 
         }); 
-
+	}
 return false;
 });
 
  $('#form1').submit(function() {
-	
+	if ( $(this).parsley().isValid() ) {
          var csrftoken = getCookie('csrf_cookie_name');
     
 		
@@ -469,10 +471,12 @@ return false;
 						
 					}
 				});
+	}
 return false;
 });
 
 $('#form2').submit(function(e) {
+	if ( $(this).parsley().isValid() ) {
 var csrftoken = getCookie('csrf_cookie_name');
 			
 var $formdata = $('#form2').serializeArray();
@@ -509,7 +513,7 @@ var $formdata = $('#form2').serializeArray();
 						
 					}
 				});
-
+	}
 e.preventDefault();
 });
 

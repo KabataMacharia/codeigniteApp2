@@ -130,15 +130,15 @@
     }     
 	
 	$('.form').submit(function(e) {
-        
-        var csrftoken = getCookie('csrf_cookie_name');
-    
+        if ( $(this).parsley().isValid() ) {
+		var csrftoken = getCookie('csrf_cookie_name');
         var $formdata = $('.form').serializeArray();
-		    
+		   
         $formdata.push({
             name: "csrf_cookie_name",
             value: csrftoken
         });
+		
         $.ajax({
             type: "POST",
             url: "<?php echo base_url(); ?>" + "index.php/admin/login",
@@ -169,7 +169,7 @@
 						
 					}
 				});
-				
+		}	
  e.preventDefault();
 });
 </script> 

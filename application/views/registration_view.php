@@ -69,9 +69,16 @@
                                 <div class="form-group">
 								<input type="text" name="address" id="address" required class="form-control" placeholder="Address">
                                 </div>
-								 <div class="form-group">
-								<input type="text" name="phone" id="phone" required class="form-control" placeholder="Telephone No">
+								
+							     <div class="form-group">
+								<label>Telephone No</label>
                                 </div>
+								 <div class="form-group">
+
+								 <input type="text" name="code" id="code" value="254"   align ="left" size="3" readonly>
+								<input type="text" name="phone" id="phone"  size="37" data-parsley-type="integer" data-parsley-minlength="9" data-parsley-maxlength="9" parsley-rangelength-message="Telephone no should be exactly 9 characters long" required placeholder="707963603">
+                                </div>
+						
 							     <div class="form-group">
 								<input type="password" name="password" id="password" required class="form-control" placeholder="Password">
                                 </div>
@@ -80,7 +87,7 @@
                                 </div><br>
 								<div class="form-group">
 								<label>Upload Profile Pic</label>
-								<input type="file" name="file" id="file" class="">
+								<input type="file" name="file" required id="file" class="">
                                 </div>
                                 <br>
                              <button type="submit" id="submit"  class="btn btn-success btn-block btn-flat">Register</button>
@@ -108,6 +115,7 @@
     <!-- iCheck -->
 	<script src="<?php echo base_url();?>resources/plugins/iCheck/icheck.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
+
 	function getCookie(name) {
     	var cookieValue = null;
     	if (document.cookie && document.cookie !== '') {
@@ -130,17 +138,21 @@
     }     
 	
 	$('.form').submit(function(e) {
+		
         
         var csrftoken = getCookie('csrf_cookie_name');
     
 		
 		var	_file = document.getElementById('file'); 
 		if(_file.files.length === 0){
+			if ( $(this).parsley().isValid() ) {
 		var data = new FormData(this);
+			}
 
 		}else{
+			if ( $(this).parsley().isValid() ) {
 			var data = new FormData(this);
-			
+			}
 			data.append('file', _file.files[0]);
 			var file = _file.files[0];	
 		}

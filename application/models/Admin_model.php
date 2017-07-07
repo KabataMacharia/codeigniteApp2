@@ -1,11 +1,13 @@
 <?php
 use telesign\sdk\messaging\MessagingClient;
 use function telesign\sdk\util\randomWithNDigits;
+//include './telesign/api.class.php';
 class Admin_model extends CI_Model {
 
-					function __construct(){
+		       function __construct()
+			   {
 						
-					}
+			   }
 
 				public function lastnumber(){
 				$query=$this->db->get('plastnumbers');
@@ -58,7 +60,19 @@ class Admin_model extends CI_Model {
 				}
 				else
 				{
-				 return false;
+				$this->db->where('email',$email);
+				$this->db->where('deleted','N');
+				$this->db->where('active','N');
+				$this->db->where('password',sha1($password));
+				$query = $this->db->get('login');
+				if($query->num_rows()>0)
+				{
+				echo "<font color='red' size='3px'>Sorry,your account is not activated!</font>";
+				}else
+				{		
+				echo "<font color='red' size='3px'>Your email or password is incorrect!!!</font>";
+				return false;
+				}
 				}       
 			   }
 		public function send_code(){
@@ -77,7 +91,8 @@ class Admin_model extends CI_Model {
 
 				}
 	public function saveMember()
-		{       
+		{     
+	
 		        $no = $this->lastnumber();
 				$data=$this->uploadProfilePic();
 				if($data=='')
@@ -94,7 +109,7 @@ class Admin_model extends CI_Model {
 			    'lname' =>trim($this->input->post('lname')),
 				'email' =>trim($this->input->post('email')),
 				'address' =>trim($this->input->post('address')),
-				'phone' =>trim($this->input->post('phone')),
+				'phone' =>trim($this->input->post('code'))."".trim($this->input->post('phone')),
 				'deleted' =>'N',
 				'userrole' => 'member',
 				'active' =>'N',
@@ -444,5 +459,20 @@ class Admin_model extends CI_Model {
 				} 
               
         }
+		/*public function smsVerification()
+		{
+			$customer_id = "customer_id";
+			$secret_key = "secret_key";
+
+			$verify = new Verify($customer_id, $secret_key);
+			date_default_timezone_set('Africa/Nairobi'); 
+			$phone_info = $verify->sms('phone_number');
+			$user_entered_verifycode = "user_inputted_verification_code";
+			$status_info = $verify->status($phone_info['reference_id'], $verify_code = $user_entered_verifycode);
+			if(($status_info['verify']['code_state'] == "VALID"))
+			{
+				
+			}
+		}*/
 }
 ?>

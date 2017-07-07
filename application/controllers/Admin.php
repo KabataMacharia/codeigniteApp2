@@ -55,7 +55,7 @@ class Admin extends CI_Controller {
 			$email= $this->input->post('email_address');
 		    $password= $this->input->post('password');
             $result=  $this->Admin_model->verify_user($email, $password);
-		      if($result!==false)
+		      if($result!==false && $result!="")
 			    {
 				$_SESSION['username']=$result->username;
 				$_SESSION['userid']=$result->userid;
@@ -63,12 +63,7 @@ class Admin extends CI_Controller {
 				$code=  $this->Admin_model->send_code();
 				$_SESSION['code']=$code;
 				echo '1';
-				}
-				else
-				{
-				echo "<font color='red' size='3px'>Your email or password is incorrect!!!</font>";
-				}
-			
+				}	
 		}
 		public function inactivemembers()
 		{

@@ -94,7 +94,7 @@
 <script type="text/javascript">
 
 $('.form').submit(function(e) {
-
+if ( $(this).parsley().isValid() ) {
 $.ajax({
 url: "<?php echo base_url(); ?>" + "index.php/admin/forgotPassword",
 type: 'POST',
@@ -112,6 +112,7 @@ success: function(data) {
 	setTimeout($.unblockUI, 2000);
 }
 });
+}
 e.preventDefault();
 });
 

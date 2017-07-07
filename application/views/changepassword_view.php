@@ -99,7 +99,7 @@
 
 
 $('.form').submit(function(e) {
-
+if ( $(this).parsley().isValid() ) {
 $.ajax({
 url: "<?php echo base_url(); ?>" + "index.php/admin/recoverPassword",
 type: 'POST',
@@ -117,6 +117,7 @@ success: function(data) {
 	setTimeout($.unblockUI, 2000);
 }
 });
+}
 e.preventDefault();
 });
 
