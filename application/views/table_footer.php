@@ -68,7 +68,10 @@
     <!-- THEME SCRIPTS -->
     <script src="<?php echo base_url();?>resources/js/flex.js"></script>
     <script src="<?php echo base_url();?>resources/js/demo/dashboard-demo.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script>
+  $('#country').select2();
+</script>
 </body>
 
 

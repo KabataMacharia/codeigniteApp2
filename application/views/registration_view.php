@@ -16,7 +16,7 @@
     <link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic' rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel="stylesheet" type="text/css">
     <link href="<?php echo base_url();?>resources/icons/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
     <!-- PAGE LEVEL PLUGIN STYLES -->
 
     <!-- THEME STYLES -->
@@ -87,9 +87,13 @@
 								?>
 							   </select>
 							   </div>
+							   <div class="form-group">
+							   	<label>Telephone No</label>
+								</div>
 								<div class="form-group">
-								<label>Telephone No</label>
-								<input type="text"  class="form-control" name="phone" id="phone" data-parsley-type="integer" data-parsley-length="[9, 9]" data-parsley-error-message="<font color='red'>Telephone No must be 9 characters long without special characters using the format provided</font>" parsley-rangelength-message="Telephone no should be exactly 9 characters long" required placeholder="707963603">
+							
+								<input type="text"  name="code" align="left" id="code" size="3" readonly placeholder="254">
+								<input type="text"  name="phone" align="right" id="phone" size="37" data-parsley-type="integer" data-parsley-length="[9, 9]" data-parsley-error-message="<font color='red'>Telephone No must be 9 digits long without special characters using the format provided</font>" parsley-rangelength-message="Telephone no should be exactly 9 characters long" required placeholder="707963603">
                                 </div>
 							     <div class="form-group">
 								 <label>Password</label>
@@ -108,7 +112,7 @@
 		
                             </fieldset>
                             <br>
-                            <p class="small">
+                            <p align="center" class="small">
                                 <a href="<?php echo base_url();?>index.php/admin">Login</a>
                             </p>
                         </form>
@@ -127,6 +131,10 @@
     <!-- Bootstrap 3.3.5 -->
 	<script src="<?php echo base_url();?>resources/bootstrap/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
     <!-- iCheck -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+<script>
+  $('#country').select2();
+</script>
 	<script src="<?php echo base_url();?>resources/plugins/iCheck/icheck.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 
@@ -150,13 +158,22 @@
         // these HTTP methods do not require CSRF protection
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
     }     
-	
+	 $("#phone").keyup(function(){
+    var value = $(this).val();
+    value = value.replace(/^(0*)/,"");
+    $(this).val(value);
+      });
+	  
+	$("#country").change(function(){
+    $("#code").val($(this).val());
+       });
 	$('.form').submit(function(e) {
-		if ( $(this).parsley().isValid() ) {
-        
+
+	if ( $(this).parsley().isValid() ) {
+ 
         var csrftoken = getCookie('csrf_cookie_name');
         var country= $('#country').val();
-		alert(country);
+
 		var	_file = document.getElementById('file'); 
 		if(_file.files.length === 0){
 			
@@ -190,6 +207,7 @@
 		   if(data=='1'){
 			$("#load").html("You have registered successfully.Click Login.").show();
 			$("#load1").html(data).hide();
+			$("#submit").hide();
 			}
 			else{
 			$("#load").html(data).hide();
