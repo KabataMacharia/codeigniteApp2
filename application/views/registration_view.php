@@ -60,32 +60,44 @@
 							  <div hidden class="alert alert-danger" id='load1'>
 						     </div>
                                 <div class="form-group">
-								 <input type="text" name="fname" id="fname" required data-parsley-error-message="<font color='red'>Please enter your First Name</font>" class="form-control" placeholder="First Name ">
+								<label>First Name</label>
+								 <input type="text" name="fname" id="fname" required data-parsley-error-message="<font color='red'>Please enter your First Name</font>" class="form-control">
                                 </div>
                                 <div class="form-group">
-								<input type="text" name="lname" id="lname" required data-parsley-error-message="<font color='red'>Please enter your Last Name</font>" class="form-control" placeholder="Last Name ">
+								<label>Last Name</label>
+								<input type="text" name="lname" id="lname" required data-parsley-error-message="<font color='red'>Please enter your Last Name</font>" class="form-control">
                                 </div>
 								<div class="form-group">
-								<input type="text" name="email" id="email" required data-parsley-type="email" data-parsley-error-message="<font color='red'>Please enter a valid Email</font>" class="form-control" placeholder="Email">
+								<label>Email</label>
+								<input type="text" name="email" id="email" required data-parsley-type="email" data-parsley-error-message="<font color='red'>Please enter a valid Email</font>" class="form-control">
                                 </div>
                                 <div class="form-group">
-								<input type="text" name="address" id="address" required data-parsley-error-message="<font color='red'>Please enter your Address</font>" class="form-control" placeholder="Address">
+								<label>Address</label>
+								<input type="text" name="address" id="address" required data-parsley-error-message="<font color='red'>Please enter your Address</font>" class="form-control">
                                 </div>
-								
-							     <div class="form-group">
+								<div class="form-group">
+								 <label>Country</label>
+								<select class="form-control" id="country">
+								<option value="">Please select a country</option>
+						        <?php
+									foreach($result as $row)
+									{ 
+									echo '<option value="'.$row->code.'">'.$row->name.'</option>';
+									}
+								?>
+							   </select>
+							   </div>
+								<div class="form-group">
 								<label>Telephone No</label>
+								<input type="text"  class="form-control" name="phone" id="phone" data-parsley-type="integer" data-parsley-length="[9, 9]" data-parsley-error-message="<font color='red'>Telephone No must be 9 characters long without special characters using the format provided</font>" parsley-rangelength-message="Telephone no should be exactly 9 characters long" required placeholder="707963603">
                                 </div>
-								 <div class="form-group">
-
-								 <input type="text" name="code" id="code" value="254"   align ="left" size="3" readonly>
-								<input type="text" name="phone" id="phone"  size="37" data-parsley-type="integer" data-parsley-length="[9, 9]" data-parsley-error-message="<font color='red'>Telephone No must be 9 characters long without special characters using the format provided</font>" parsley-rangelength-message="Telephone no should be exactly 9 characters long" required placeholder="707963603">
-                                </div>
-						
 							     <div class="form-group">
-								<input type="password" name="password" id="password" data-parsley-error-message="<font color='red'>Please enter password</font>" required class="form-control" placeholder="Password">
+								 <label>Password</label>
+								<input type="password" name="password" id="password" data-parsley-error-message="<font color='red'>Please enter password</font>" required class="form-control" >
                                 </div>
 								<div class="form-group">
-								<input type="password" name="cpassword" id="cpassword" required data-parsley-equalto="#password" data-parsley-error-message="<font color='red'>Please confirm the password</font>" class="form-control" placeholder="Confirm Password">
+								<label>Confirm Password</label>
+								<input type="password" name="cpassword" id="cpassword" required data-parsley-equalto="#password" data-parsley-error-message="<font color='red'>Please confirm the password</font>" class="form-control">
                                 </div><br>
 								<div class="form-group">
 								<label>Upload Profile Pic</label>
@@ -143,8 +155,8 @@
 		if ( $(this).parsley().isValid() ) {
         
         var csrftoken = getCookie('csrf_cookie_name');
-    
-		
+        var country= $('#country').val();
+		alert(country);
 		var	_file = document.getElementById('file'); 
 		if(_file.files.length === 0){
 			
@@ -161,7 +173,7 @@
   
         $.ajax({
             type: "POST",
-            url: "<?php echo base_url(); ?>" + "index.php/admin/registermember"+ "?csrf_cookie_name=" +  csrftoken,
+            url: "<?php echo base_url(); ?>" + "index.php/admin/registermember"+ "?country=" + country + "&csrf_cookie_name=" +  csrftoken,
             data: data,
             beforeSend: function(xhr, settings) {
                 if (!csrfSafeMethod(settings.type) && !this.crossDomain) {

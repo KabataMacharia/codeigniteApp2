@@ -131,7 +131,7 @@ class Admin_model extends CI_Model {
 			    'lname' =>trim($this->input->post('lname')),
 				'email' =>trim($this->input->post('email')),
 				'address' =>trim($this->input->post('address')),
-				'phone' =>trim($this->input->post('code'))."".trim($this->input->post('phone')),
+				'phone' =>trim($this->input->get('country'))."".trim($this->input->post('phone')),
 				'deleted' =>'N',
 				'userrole' => 'member',
 				'active' =>'N',

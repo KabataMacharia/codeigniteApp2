@@ -42,7 +42,11 @@ class Admin extends CI_Controller {
 		}
 		public function registration()
 		{
+			
+			$result=  $this->Admin_model->getCountries();
+			
 			$data['title'] = 'Register';
+			$data['result'] = $result;
 		    $this->load->view('registration_view',$data);
 		}
 
