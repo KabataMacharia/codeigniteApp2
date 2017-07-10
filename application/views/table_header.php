@@ -592,6 +592,11 @@
                                     <i class="fa fa-angle-double-right"></i>Countries
                                 </a>
                             </li>
+														 <li>
+                                <a href="<?php echo base_url(); ?>index.php/admin/userrole">
+                                    <i class="fa fa-angle-double-right"></i>Userrole
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <!-- end SETTING DROPDOWN -->

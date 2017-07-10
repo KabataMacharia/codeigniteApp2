@@ -80,10 +80,14 @@
 								<select class="form-control" id="country">
 								<option value="">Please select a country</option>
 						        <?php
-									foreach($result as $row)
-									{ 
-									echo '<option value="'.$row->code.'">'.$row->name.'</option>';
-									}
+			
+								$countries=JSON_decode(file_get_contents('https://restcountries.eu/rest/v2/all'));
+								
+								foreach ($countries as $row)
+								{
+					
+								echo '<option value="'.$row->alpha2Code.'">'.$row->name.'</option>';
+								}
 								?>
 							   </select>
 							   </div>
@@ -102,7 +106,20 @@
 								<div class="form-group">
 								<label>Confirm Password</label>
 								<input type="password" name="cpassword" id="cpassword" required data-parsley-equalto="#password" data-parsley-error-message="<font color='red'>Please confirm the password</font>" class="form-control">
-                                </div><br>
+                                </div>
+								<div class="form-group">
+								 <label>User Role</label>
+								<select class="form-control" id="userrole">
+								<option value="">Please select userrole</option>
+						        <?php
+									foreach($userrole as $row)
+									{ 
+									echo '<option value="'.$row->id.'">'.$row->userrole.'</option>';
+									}
+								?>
+							   </select>
+							   </div>
+								<br>
 								<div class="form-group">
 								<label>Upload Profile Pic</label>
 								<input type="file" name="file" required data-parsley-error-message="<font color='red'>Please upload a photo</font>" id="file" class="">
@@ -134,6 +151,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
 <script>
   $('#country').select2();
+  $('#userrole').select2();
 </script>
 	<script src="<?php echo base_url();?>resources/plugins/iCheck/icheck.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
@@ -165,15 +183,30 @@
       });
 	  
 	$("#country").change(function(){
-    $("#code").val($(this).val());
+    var code=$("#country").val();
+
+		   $.ajax({
+            type: "GET",
+            url: "https://restcountries.eu/rest/v2/alpha/"+code,
+           
+            success: function(data) {
+				
+		           $("#code").val(data.callingCodes[0]);
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) { // on error..
+						
+						
+					}
+				});
        });
 	$('.form').submit(function(e) {
 
 	if ( $(this).parsley().isValid() ) {
  
         var csrftoken = getCookie('csrf_cookie_name');
-        var country= $('#country').val();
-
+        var country= $('#code').val();
+		var userrole= $('#userrole').val();
+		
 		var	_file = document.getElementById('file'); 
 		if(_file.files.length === 0){
 			
@@ -190,7 +223,7 @@
   
         $.ajax({
             type: "POST",
-            url: "<?php echo base_url(); ?>" + "index.php/admin/registermember"+ "?country=" + country + "&csrf_cookie_name=" +  csrftoken,
+            url: "<?php echo base_url(); ?>" + "index.php/admin/registermember"+ "?country=" + country + "&csrf_cookie_name=" +  csrftoken + "&userrole="+userrole,
             data: data,
             beforeSend: function(xhr, settings) {
                 if (!csrfSafeMethod(settings.type) && !this.crossDomain) {

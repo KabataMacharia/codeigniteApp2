@@ -44,9 +44,11 @@ class Admin extends CI_Controller {
 		{
 			
 			$result=  $this->Admin_model->getCountries();
+			$userrole=  $this->Admin_model->getUserrole();
 			
 			$data['title'] = 'Register';
 			$data['result'] = $result;
+			$data['userrole'] = $userrole;
 		    $this->load->view('registration_view',$data);
 		}
 
@@ -89,7 +91,25 @@ class Admin extends CI_Controller {
 		 }
 		}
 
-		public function country()
+		public function userrole()
+		{
+			if(isset($_SESSION['userid']) && $_SESSION['userrole']=='admin')
+		{
+		$result=  $this->Admin_model->getUser();
+		$data['photo'] = $result->photo;
+		$userroles=  $this->Admin_model->getUserrole();
+		if($userroles!="")
+		{
+		$data['userroles'] = $userroles;
+		}else{
+		 $data['userroles'] = "";
+		}
+		$this->load->view('table_header',$data);
+		$this->load->view('userrole_view',$data);
+	    $this->load->view('table_footer');	
+		}
+		}
+				public function country()
 		{
 			if(isset($_SESSION['userid']) && $_SESSION['userrole']=='admin')
 		 {
@@ -132,6 +152,10 @@ class Admin extends CI_Controller {
 		public function addcountry()
 		{
 	    $this->Admin_model->addcountry();
+		}
+		public function adduserrole()
+		{
+	    $this->Admin_model->adduserrole();
 		}
 		public function deleteMember()
 		{
@@ -200,6 +224,11 @@ class Admin extends CI_Controller {
 		$id = $this->input->post('id');
 		$this->Admin_model->deleteCountry($id);
 		}
+		public function deleteUserrole()
+		{
+		$id = $this->input->post('id');
+		$this->Admin_model->deleteUserrole($id);
+		}
 		public function editCountry(){
 
 	    if(isset($_SESSION['userid']) && $_SESSION['userrole']=='admin')
@@ -227,9 +256,40 @@ class Admin extends CI_Controller {
 		
 		 }
 		}
+		public function editUserrole(){
+
+	    if(isset($_SESSION['userid']) && $_SESSION['userrole']=='admin')
+		 {
+	    $result=  $this->Admin_model->getUser();
+		$data['photo'] = $result->photo;
+		
+		$userrole = $this->Admin_model->getUserroleId();
+
+	   if($userrole!="")
+		{
+		$data['userrole'] = $userrole;
+		$this->load->view('table_header',$data);
+		$this->load->view('userole_editview',$data);
+	    $this->load->view('table_footer');
+		}
+		else
+		{
+		 $data['userrole'] = "";
+		 $data['error']="The userrole does not exist!";
+		 $this->load->view('table_header',$data);
+		 $this->load->view('userole_editview', $data);
+		 $this->load->view('table_footer');
+		}
+		
+		 }
+		}
 		   public function updateCountry()
 		 {
 			$this->Admin_model->updateCountry(); 
+		 }
+		   public function updateUserrole()
+		 {
+			$this->Admin_model->updateUserrole(); 
 		 }
 }
 ?>

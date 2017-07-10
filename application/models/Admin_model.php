@@ -49,11 +49,12 @@ class Admin_model extends CI_Model {
 			}
 
 				public function verify_user($email,$password){
-				$this->db->where('email',$email);
-				$this->db->where('deleted','N');
-				$this->db->where('active','Y');
-				$this->db->where('password',sha1($password));
-				$query = $this->db->get('login');
+			    $pass=sha1($password);
+				$query = $this->db->query("select login.username,login.userid,
+				puserrole.userrole from login inner join puserrole on 
+				puserrole.id=login.userrole where login.email='{$email}' 
+				AND login.deleted='N' AND login.active='Y' AND login.password='{$pass}'"); 
+
 				if($query->num_rows()>0)
 				{
 				return $query->row();
@@ -112,6 +113,25 @@ class Admin_model extends CI_Model {
 				echo "Country not added.";					
 				}					
 		}	
+		public function adduserrole()
+		{     
+	
+				$data = array(
+				'userrole' =>trim($this->input->post('name')),
+				'deleted'=>'N'
+				);	
+				$this->db->insert('puserrole', $data);
+			
+				if($this->db->affected_rows() > 0)
+				{
+                echo '1';
+		
+				}
+				else
+				{
+				echo "Userrole not added.";					
+				}					
+		}	
 	public function saveMember()
 		{     
 	
@@ -132,8 +152,9 @@ class Admin_model extends CI_Model {
 				'email' =>trim($this->input->post('email')),
 				'address' =>trim($this->input->post('address')),
 				'phone' =>trim($this->input->get('country'))."".trim($this->input->post('phone')),
+				'userrole' =>trim($this->input->get('userrole')),
 				'deleted' =>'N',
-				'userrole' => 'member',
+				//'userrole' => 'member',
 				'active' =>'N',
 				'photo'=>$file
 				);	
@@ -143,7 +164,8 @@ class Admin_model extends CI_Model {
 				'email' =>trim($this->input->post('email')),
 				'password' => sha1(trim($this->input->post('cpassword'))),
 				'username' => trim($this->input->post('fname'))." ".trim($this->input->post('lname')),
-				'userrole' => 'member',
+				//'userrole' => 'member',
+				'userrole' =>trim($this->input->get('userrole')),
 				'photo'=>$file,
 				'active' => 'N',
 				'deleted' => 'N'
@@ -350,12 +372,41 @@ class Admin_model extends CI_Model {
 			return false;
 			} 
 		 }
+		 
+		 	   public function getUserrole()
+		 {
+			 $this->db->where('deleted','N');
+			 $query = $this->db->get('puserrole');
+			if($query->num_rows()>0)
+			{
+			return $query->result();
+					
+			}else
+			{
+			return false;
+			} 
+		 }
 		 	public function getCountryId()
 		 {
 			 $id = $this->input->get('id');
 			 $this->db->where('id',$id);
 			 $this->db->where('deleted','N');
 			 $query = $this->db->get('country');
+			if($query->num_rows()>0)
+			{
+			return $query->row();
+					
+			}else
+			{
+			return false;
+			} 
+		 }
+		 public function getUserroleId()
+		 {
+			 $id = $this->input->get('id');
+			 $this->db->where('id',$id);
+			 $this->db->where('deleted','N');
+			 $query = $this->db->get('puserrole');
 			if($query->num_rows()>0)
 			{
 			return $query->row();
@@ -529,6 +580,23 @@ class Admin_model extends CI_Model {
 				} 
               
         }
+		public function deleteUserrole($id)
+		 {
+			
+				$this->db->set('deleted', 'Y');
+				$this->db->where('id',$id);
+				$this->db->update('puserrole');
+				if($this->db->affected_rows() > 0)
+				{
+				
+			   echo "1";		
+				}
+				else
+				{
+				echo "Userrole not deleted";					
+				} 
+              
+        }
 		public function updateCountry()
 		   {
 				$id = trim($this->input->post('id'));
@@ -547,6 +615,26 @@ class Admin_model extends CI_Model {
 				else
 				{
 				echo "Country not edited";					
+				}  
+		   }
+		   		public function updateUserrole()
+		   {
+				$id = trim($this->input->post('id'));
+				
+			 	$data = array(
+				'userrole' =>trim($this->input->post('name'))
+			
+				);	
+				$this->db->where('id',$id);
+				$this->db->update('puserrole', $data);
+
+				if($this->db->affected_rows() > 0)
+				{
+			   echo "1";		
+				}
+				else
+				{
+				echo "userrole not edited";					
 				}  
 		   }
 		/*public function smsVerification()
