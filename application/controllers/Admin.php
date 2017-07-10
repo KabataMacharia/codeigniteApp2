@@ -101,7 +101,7 @@ class Admin extends CI_Controller {
 		$this->load->view('table_header',$data);
 		$this->load->view('country_view',$data);
 	    $this->load->view('table_footer');	
-		 }
+		}
 		}
 		public function activemembers()
 		{
@@ -191,5 +191,41 @@ class Admin extends CI_Controller {
 		$id = $this->input->post('no');
 		$this->Admin_model->deactivateMember($id);
 		}
+	   public function deleteCountry()
+		{
+		$id = $this->input->post('id');
+		$this->Admin_model->deleteCountry($id);
+		}
+		public function editCountry(){
+
+	    if(isset($_SESSION['userid']) && $_SESSION['userrole']=='admin')
+		 {
+	    $result=  $this->Admin_model->getUser();
+		$data['photo'] = $result->photo;
+		
+		$country = $this->Admin_model->getCountryId();
+
+	   if($country!="")
+		{
+		$data['country'] = $country;
+		$this->load->view('table_header',$data);
+		$this->load->view('country_editview',$data);
+	    $this->load->view('table_footer');
+		}
+		else
+		{
+		 $data['country'] = "";
+		 $data['error']="The country does not exist!";
+		 $this->load->view('table_header',$data);
+		 $this->load->view('country_editview', $data);
+		 $this->load->view('table_footer');
+		}
+		
+		 }
+		}
+		   public function updateCountry()
+		 {
+			$this->Admin_model->updateCountry(); 
+		 }
 }
 ?>

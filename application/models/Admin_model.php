@@ -350,6 +350,21 @@ class Admin_model extends CI_Model {
 			return false;
 			} 
 		 }
+		 	public function getCountryId()
+		 {
+			 $id = $this->input->get('id');
+			 $this->db->where('id',$id);
+			 $this->db->where('deleted','N');
+			 $query = $this->db->get('country');
+			if($query->num_rows()>0)
+			{
+			return $query->row();
+					
+			}else
+			{
+			return false;
+			} 
+		 }
 		      public function getActiveMembers()
 		 {
 			 
@@ -497,6 +512,43 @@ class Admin_model extends CI_Model {
 				} 
               
         }
+			public function deleteCountry($id)
+		 {
+			
+				$this->db->set('deleted', 'Y');
+				$this->db->where('id',$id);
+				$this->db->update('country');
+				if($this->db->affected_rows() > 0)
+				{
+				
+			   echo "1";		
+				}
+				else
+				{
+				echo "Country not deleted";					
+				} 
+              
+        }
+		public function updateCountry()
+		   {
+				$id = trim($this->input->post('id'));
+				
+			 	$data = array(
+				'name' =>trim($this->input->post('name')),
+				'code' =>trim($this->input->post('code'))
+				);	
+				$this->db->where('id',$id);
+				$this->db->update('country', $data);
+
+				if($this->db->affected_rows() > 0)
+				{
+			   echo "1";		
+				}
+				else
+				{
+				echo "Country not edited";					
+				}  
+		   }
 		/*public function smsVerification()
 		{
 			$customer_id = "customer_id";

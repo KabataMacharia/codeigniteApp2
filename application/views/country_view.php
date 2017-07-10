@@ -27,7 +27,7 @@
                 <div class="row">
 
                     <!-- begin LEFT COLUMN -->
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
 
                         <div class="row">
 
@@ -57,7 +57,7 @@
                                                 </div>
                                                 <div class="form-group">
                                                  <label>Country Code</label>
-                                                 <input type="text" name="code" id="code" required data-parsley-type="integer" data-parsley-error-message="<font color='red'>Please enter your Last Name</font>" class="form-control">
+                                                 <input type="text" name="code" id="code" required data-parsley-type="integer" data-parsley-error-message="<font color='red'>Please enter country code</font>" class="form-control">
                                                 </div>
                                                 
                                                 
@@ -78,7 +78,7 @@
                     <!-- end LEFT COLUMN -->
 
                     <!-- begin RIGHT COLUMN -->
-                    <div class="col-lg-6">
+                    <div class="col-lg-8">
 
                         <div class="row">
 
@@ -94,8 +94,12 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div class="portlet-body">
+							     <div hidden class="alert alert-success" id='load2'>
+								 </div>
+								 <div hidden class="alert alert-danger" id='load3'>
+								</div>
                                 <div class="table-responsive">
-                                    <table id="example-table" class="table table-striped table-bordered table-hover table-green">
+                                    <table id="example2" class="table table-striped table-bordered table-hover table-green">
                                         <thead>
                                             <tr>
                                                 <th>Country Name</th>
@@ -122,10 +126,10 @@
 						<td><?php echo $result->code; ?></td>
 						
 						<td><?php $id=$result->id;?>
-			           <a href="<?php echo base_url("countryeditview?id=$id") ; ?>" class="edit" onclick="editrecord('<?php echo $id;?>')" style="color:red"> Edit</a></td>
+			           <a href="<?php echo base_url("index.php/admin/editCountry?id=$id") ; ?>" class="edit" onclick="editrecord('<?php echo $id;?>')" style="color:red"> Edit</a></td>
 						</td>
 						<td><?php $id=$result->id;?>
-						<a href="#" onclick="delete('<?php echo $id;?>')" style="color:red">Delete</a>
+						<a href="#" onclick="deletecountry('<?php echo $id;?>')" style="color:red">Delete</a>
 						</td>	 
 						</tr>
 						<?php } }?>
@@ -134,6 +138,11 @@
                                 </div>
                                 <!-- /.table-responsive -->
                             </div>
+							<div id="question" style="display:none; cursor: default"> 
+							<h4>Are you sure you want to continue?</h4> 
+							<input type="button" id="yes" value="Yes" /> 
+							<input type="button" id="no" value="No" /> 
+							 </div>
                             <!-- /.portlet-body -->
                         </div>
                                 <!-- /.portlet -->
@@ -220,6 +229,7 @@ var formdata = $('#form').serializeArray();
 			
 			$("#load").html("Country Saved Successfuly.").show();
 			$("#load1").html(data).hide();
+			location.reload();
 			}
 			else{
 			$("#load").html(data).hide();
@@ -237,5 +247,84 @@ var formdata = $('#form').serializeArray();
 	}
 e.preventDefault();
 });
+
+ function deletecountry(id){
+	var csrftoken = getCookie('csrf_cookie_name');
+			
+	var formdata = $('#form').serializeArray();
+	formdata.push({name: "id",
+	value: id});	
+	formdata.push({
+	name: "csrf_cookie_name",
+	value: csrftoken
+	});
+   $.blockUI({ message: $('#question'), css: { width: '300px' } }); 
+ $('#yes').click(function() { 
+            // update the block message 
+            $.blockUI({ message: "<h3><font color='red'>Deleting...</h3></font>" }); 
+ 			$.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>" + "index.php/admin/deleteCountry",
+            data: formdata,
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+      			
+            },
+            cache: false,
+            success: function(data) {
+			
+			$.blockUI();
+		   if(data=='1'){
+			  
+			 $("#load2").html("Country successfully deleted").show();
+			$("#load3").html(data).hide();
+			location.reload();
+			}
+			else{
+			$("#load2").html(data).hide();
+			$("#load3").html(data).show();
+			}
+			setTimeout($.unblockUI, 2000);
+						
+
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) { // on error..
+						
+						
+					}
+				});
+    
+        }); 
+		   $('#no').click(function() { 
+            $.unblockUI(); 
+            return false; 
+        }); 
+	 
+ }
+
+ function editrecord(id){
+	var csrftoken = getCookie('csrf_cookie_name');
+			
+	var formdata = $('#form').serializeArray();
+	formdata.push({name: "id",
+	value: id});	
+	formdata.push({
+	name: "csrf_cookie_name",
+	value: csrftoken
+	});
+	 
+	  var href = "<?php echo base_url("index.php/admin/editCountry") ; ?>"
+      $.ajax({
+        type: 'POST',
+        url: href,
+		data:formdata,
+        success: function(data) {
+				 
+        }
+      });
+	 
+ }
  </script> 
     
