@@ -345,11 +345,10 @@ class Admin_model extends CI_Model {
 		 }	
          public function getInactiveMembers()
 		 {
-			 
-			 $this->db->where('userrole','member');
-			 $this->db->where('deleted','N');
-			 $this->db->where('active','N');
-			 $query = $this->db->get('member');
+			 $query = $this->db->query("select member.member_no,member.fname,member.lname,
+			 member.email,member.address,member.phone, member.photo,
+			 puserrole.userrole from member inner join puserrole on 
+			 puserrole.id=member.userrole where member.deleted='N' AND member.active='N'"); 
 			if($query->num_rows()>0)
 			{
 			return $query->result();
@@ -418,11 +417,10 @@ class Admin_model extends CI_Model {
 		 }
 		      public function getActiveMembers()
 		 {
-			 
-			 $this->db->where('userrole','member');
-			 $this->db->where('deleted','N');
-			 $this->db->where('active','Y');
-			 $query = $this->db->get('member');
+			 $query = $this->db->query("select member.member_no,member.fname,member.lname,
+			 member.email,member.address,member.phone, member.photo,
+			 puserrole.userrole from member inner join puserrole on 
+			 puserrole.id=member.userrole where member.deleted='N' AND member.active='Y'"); 
 			if($query->num_rows()>0)
 			{
 			return $query->result();

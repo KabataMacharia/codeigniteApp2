@@ -47,6 +47,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Member Name</th>
+												<th>User Role</th>
                                                 <th>Email</th>
                                                 <th>Address</th>
 												<th>Telephone No</th>
@@ -80,6 +81,7 @@
 						?>
 						
 						<?php echo $result->fname." ".$result->lname; ?></td>
+						<td><?php echo $result->userrole; ?></td>
 						<td><?php echo $result->email; ?></td>
 						<td><?php echo $result->address; ?></td>
 						<td><?php echo $result->phone; ?></td>
